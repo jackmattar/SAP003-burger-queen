@@ -8,7 +8,7 @@ const config = {
     storageBucket: "burger-queen-jm.appspot.com",
     messagingSenderId: "722308334117",
     appId: "1:722308334117:web:5a9e174cdc92d7327d35cc"
-  };
+};
 
 export const firebaseImpl = firebase.initializeApp(config);
 export const db = firebase.firestore();
