@@ -1,19 +1,20 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect, useReducer} from 'react';
 import {db} from './firebase.js';
 import { StyleSheet, css } from 'aphrodite';
 import Button from './components/button';
 import ProductButton from './components/productButton';
 import Order from './components/orderDiv';
 import MenuContainer from './components/menuContainer';
-
+import Input from './components/input';
 
 function App() {
   const [menus, setMenus] = useState([]);
-  // const [showMenu, setShowMenu] = useState([]);
-  const [client, setClient] = useState('Jack');
-  const [table, setTable] = useState('4')
-  const [product, setProduct] = useState([])
-
+  const [product, setProduct] = useState([]);
+  const [client, setClient] = useState('');
+  const [table, setTable] = useState('');
+  const [order, setOrder] = useState([]);
+  const [totalBill, setTotalBill] = useState([0]);
+    
   useEffect(() => {
     db.collection('Menu')
     .get()
@@ -22,79 +23,150 @@ function App() {
           id: doc.id, data: doc.data()
       }));
       setMenus(productsMenu);
-    })
-  }, [0])
+    });
+  }, []);
 
   const chosenMenu = (event) => {
+    const id = event.target.id;
+    if(id === 'all'){
+      console.log('oi')
+      return setProduct(menus)
+    } else {
+      const validate = (id === 'breakfast')? true : false;
+      const products = menus.filter((product) => product.data.breakfast === validate);
+      return setProduct(products)
+    }
+    
+  };
+
+  const clientName = (event) => {
+    const inputValue = event.target.value
+    setClient(inputValue)
+  }
+
+  const clientTable = (event) => {
+    const inputValue = event.target.value
+    setTable(inputValue)
+  }
+
+  const criateOrder = (event) => {
+    const content = event.target.textContent
     const id = event.target.id
-    const breakfast = (id === 'breakfast')? true: false
-    const products = menus.filter((product) => product.data.breakfast === breakfast)
-    return setProduct(products)
+    const contentArray = content.split('R$')
+    setOrder([...order, 
+      {
+        name: contentArray[0], 
+        price: contentArray[1],
+        id: id,
+        totalBill: setTotalBill([...totalBill, Number(contentArray[1])])
+      }
+    ])
   }
 
   const styles = StyleSheet.create({
-    productButton: {
-      backgroundColor: '#ffe0b2',
-      margin: '2vh',
-      height: '15vh',
-      width: '40vh',
-      borderRadius: 5,
-      border: 'none'
-    },
-
     orderInfo: {
       padding: '2vh',
       borderRadius: 7,
-      backgroundColor: '#ffca28',
-      width: '80%'
+      backgroundColor: '#4F3E9C',
+      width: '80%',
+      color: '#ffffff'
+    },
+
+    forms: {
+      display: 'flex',
+      flexDirection: 'row'
     },
 
     orderDiv: {
       padding: '5vh',
-      backgroundColor: '#fafafa',
-      width: '25vw',
+      backgroundColor: '#FBFBFB',
+      width: '30vw',
       height: '100vw'
     },
 
     totalBill: {
       display: 'flex',
       direction: 'row',
-      justifyContent: 'space-between'
+      justifyContent: 'space-between',
     },
-
+    
     mainContainer: {
       display: 'flex',
-      justifyContent: 'space-between'
-    }
-  })
+      justifyContent: 'space-between',
+    },
+
+    menuContainer: {
+      display: 'flex',
+      width: '100%',
+      flexDirection: 'column'
+    },
+
+    menu: {
+      display: "flex",
+      justifyContent: 'center',
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      width: '70vw',
+    },
+
+  });
 
   return (
     <>
-    <section className={css(styles.mainContainer)}>
-      <div className={css(styles.menuContainer)} >
+    <main className ={css(styles.mainContainer)}>
+      <div className ={css(styles.menuContainer)} >
+        
+        <form className ={css(styles.forms)}>
+          <Input
+            label = 'Nome do cliente'
+            type = 'text'
+            onChange = {clientName}
+          />
+          <Input
+            label = 'Mesa'
+            type = 'number'
+            onChange = {clientTable}
+          />
+        </form>
+       
+        <p className ={css(styles.menu)} >
         <Button 
-          className= {css(styles.productButton)}
-          onClick= {chosenMenu}
-          title='Café da Manhã'
-          id= 'breakfast'
-        />
-        <Button 
-          className= {css(styles.productButton)}
-          onClick= {chosenMenu} 
-          title='Restante do dia'
-        />
+            img= 'http://bit.ly/2S90vuo'
+            onClick = {chosenMenu}
+            title ='Menu Completo'
+            id= 'all'
+          />
+          <Button 
+            img= 'http://bit.ly/35FQFUT'
+            onClick = {chosenMenu}
+            title ='Café da Manhã'
+            id = 'breakfast'
+          />
+          <Button
+            img= 'http://bit.ly/38QUoAV'
+            onClick = {chosenMenu} 
+            title ='Restante do dia'
+          />
+        </p>
+
         <MenuContainer
           className= {css(styles.menu)}
           content= {product.map((product) => {
             return ( 
-              <ProductButton
+            
+               <ProductButton
                 key = {product.id}
+                img= {product.data.img}
                 title = {product.data.name}
                 price = {product.data.price}
-                onClick = {() => {return console.log(`produto clicado foi ${product.data.name}`)}}
-              />
-            )}
+                handleClick = {criateOrder}
+                handleImgClick = {criateOrder}
+                id ={product.id}
+              /> 
+             
+            )},
           )}
+          
         />
       </div>
       <Order 
@@ -103,57 +175,37 @@ function App() {
           <section>
             <p>Meu Pedido</p>
             <div className= {css(styles.orderInfo)}>
-              <p>Nome do cliente: {client} </p>
-              <p>Nº da mesa: {table} </p>
+              <p>Cliente : {client} </p>
+              <p>Nº da mesa : {table} </p>
             </div>
             <section >
               <div className= {css(styles.totalBill)}>
-                <p>Total</p>
-                <p>R$</p>
-                <p></p>
-              </div>      
+                <article>
+                  {order.map((item) => {
+                    return <p key={item.id}>{item.name} {'R$'}{item.price}</p>
+                  })}
+                  <div className= {css(styles.totalBill)}>
+                    <p>Total R$</p>
+                    
+                    {/* <p>R$</p> */}
+                    <p>{totalBill.reduce((accumulator, currentValue) => accumulator + currentValue)}</p>
+                    <p>
+                      <button onClick={()=>{console.log('enviado')}}>Enviar Pedido</button>
+                    </p>
+                    
+                  </div>
+                 </article>
+                 
+                
+              </div>
             </section>
           </section>
         }
       />
-    </section>
+    </main>
     </>
   );
 }
 
 export default App;
 
-// {menus.map((products) => (
-//   (products.data.breakfast === false)
-//   ? <ProductButton
-//       key = {products.id}
-//       title = {products.data.name}
-//       price = {products.data.price}
-//       onClick = {() => {return console.log(`produto clicado foi ${products.data.name}`)}}
-//       />  
-//   : null
-//   ))
-// }
-
-// {menus.map((products) => (
-//   (products.data.breakfast === true)
-//   ? <ProductButton
-//       key = {products.id}
-//       title = {products.data.name}
-//       price = {products.data.price}
-//       onClick = {() => {return console.log(`produto clicado foi ${products.data.name}`)}}
-//       />  
-//   : null
-//   ))
-// }
-
-// const chosenMenu = (event) => {
-//   const id = (event.target.id)
-//   const breakfast = (id === 'breakfast')? true : false;
-  
-//   const chosenProducts = menus.filter((products) => {
-//     return (products.data.breakfast === breakfast)
-//   })
-
-//   setShowMenu(chosenProducts)
-// }
