@@ -1,9 +1,22 @@
 import React from 'react';
+import { StyleSheet, css } from 'aphrodite';
 
-const MenuContainer = (props) => {
+
+const Container = (props) => {
   return (
-      <div className={props.className}>{props.content}</div>
+      <section className= {css(styles.menu)}>{props.content}</section>
   );
 };
-  export default MenuContainer
+
+const styles = StyleSheet.create({
+  menu: {
+    display: "flex",
+    justifyContent: 'center',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    width: '60vw',
+  }
+})
+
+export default Container
   

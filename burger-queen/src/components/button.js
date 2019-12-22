@@ -15,26 +15,25 @@ const Button = (props) => {
 };
 
 const styles = StyleSheet.create({
-  menuButton: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    backgroundColor: '#F8D956',
-    margin: '2vh',
-    height: '13vh',
-    width: '30vh',
-    borderRadius: 20,
-    border: 'none',
-    ':focus': {
-      backgroundColor: '#FC7443',
-      outline: 'none'
-    }
+    menuButton: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-around',
+      backgroundColor: '#F8D956',
+      margin: '0.7vw',
+      height: '10vh',
+      width: '17vw',
+      borderRadius: 20,
+      border: 'none',
+      ':focus': {
+        backgroundColor: '#FC7443',
+        outline: 'none'
+      }
     },
-
-  iconButton: {
-    width: '5vw',
-  }
   
+    iconButton: {
+      width: '6vw',
+    },
 });
 
 export default Button

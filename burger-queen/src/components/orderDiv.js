@@ -1,9 +1,20 @@
 import React from 'react';
+import { StyleSheet, css } from 'aphrodite';
 
-const Order = (props) => {
+const OrderSections = (props) => {
   return (
-      <div className={props.className}>{props.content}</div>
+    <section className={css(styles.orderSections,(props.className))}>
+      {props.content}
+    </section>
   );
 };
-  export default Order
+
+const styles = StyleSheet.create({
+  orderSections: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  }
+})
+
+export default OrderSections
   
