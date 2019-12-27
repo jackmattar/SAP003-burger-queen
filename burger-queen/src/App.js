@@ -48,18 +48,49 @@ function App() {
   };
 
   const criateOrder = (event) => {
-    const id = event.target
-    const content = id.parentElement.textContent
+    const product = event.target
+    const content = product.parentElement.textContent
     const contentArray = content.split('R$')
+
     setOrder([...order,
-    {
-      name: contentArray[0],
-      price: contentArray[1],
-      totalBill: setTotalBill([...totalBill, Number(contentArray[1])])
-    }
+      {
+        name: contentArray[0],
+        price: contentArray[1],
+        totalBill: setTotalBill([...totalBill, Number(contentArray[1])])
+      }
     ])
   }
 
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    const item = event.target
+    const product = item.parentElement.previousElementSibling.textContent
+    const productInfos= product.split('R$')
+    const selectedOption = item.options.value
+    const extras = item.extras
+    let selectedAdditional = []
+
+    extras.forEach(element => {
+      return (        
+        element.checked === true
+        ? selectedAdditional= [...selectedAdditional, element.value]
+        : ''
+      )
+    });
+    const price = Number(productInfos[1]) + Number(selectedAdditional.length)
+    setOrder([...order,
+      {
+        name: productInfos[0],
+        price: price,
+        options: selectedOption,
+        additional: selectedAdditional,
+        totalBill: setTotalBill([...totalBill, price])
+      }
+    ])
+
+    return window.app.showOptions()
+
+  }
 
   return (
     <main className={css(styles.main)}>
@@ -108,11 +139,14 @@ function App() {
             return (
               <ProductCard
                 key={product.id}
+                id={product.id}
                 img={product.data.img}
                 title={product.data.name}
                 price={product.data.price}
+                options={product.data.options}
+                additionals={product.data.additional}
                 handleClick={criateOrder}
-                id={product.id}
+                handleSubmit= {handleSubmit}
               />
             )
           },
@@ -204,6 +238,7 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     flexDirection: 'column',
     height: '9vw',
+    width: '35vw',
     fontSize: 20,
     marginTop: -10,
   },
@@ -260,3 +295,4 @@ const styles = StyleSheet.create({
 });
 
 export default App;
+// se tiver options quando o produto for clicado, abre uma abinha que mostra as options
