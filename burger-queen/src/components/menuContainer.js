@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, css } from 'aphrodite';
 
-
 const Container = (props) => {
   return (
       <section className= {css(styles.menu)}>{props.content}</section>
@@ -13,8 +12,7 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: 'center',
     flexDirection: 'row',
-    flexWrap: 'wrap',
-    width: '60vw',
+    flexWrap: 'wrap'
   }
 })
 

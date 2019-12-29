@@ -6,6 +6,7 @@ import ProductCard from './components/productCard';
 import OrderParagraph from './components/paragraph'
 import Container from './components/menuContainer';
 import Input from './components/input';
+import SendButton from './components/sendButton'
 
 function App() {
   const [menus, setMenus] = useState([]);
@@ -13,7 +14,7 @@ function App() {
   const [client, setClient] = useState('');
   const [table, setTable] = useState('');
   const [order, setOrder] = useState([]);
-  const [totalBill, setTotalBill] = useState([0]);
+  const [totalBill, setTotalBill] = useState(0);
 
   useEffect(() => {
     db.collection('Menu')
@@ -47,55 +48,22 @@ function App() {
     }
   };
 
-  const criateOrder = (event) => {
-    const product = event.target
-    const content = product.parentElement.textContent
-    const contentArray = content.split('R$')
-
-    setOrder([...order,
-      {
-        name: contentArray[0],
-        price: contentArray[1],
-        totalBill: setTotalBill([...totalBill, Number(contentArray[1])])
-      }
-    ])
+  const createOrder = (product) => {
+    setOrder([...order, product])
+    return setTotalBill(totalBill + Number(product.data.price))
   }
 
-  const handleSubmit = (event) => {
-    event.preventDefault()
-    const item = event.target
-    const product = item.parentElement.previousElementSibling.textContent
-    const productInfos= product.split('R$')
-    const selectedOption = item.options.value
-    const extras = item.extras
-    let selectedAdditional = []
-
-    extras.forEach(element => {
-      return (        
-        element.checked === true
-        ? selectedAdditional= [...selectedAdditional, element.value]
-        : ''
-      )
-    });
-    const price = Number(productInfos[1]) + Number(selectedAdditional.length)
-    setOrder([...order,
-      {
-        name: productInfos[0],
-        price: price,
-        options: selectedOption,
-        additional: selectedAdditional,
-        totalBill: setTotalBill([...totalBill, price])
-      }
-    ])
-
-    return window.app.showOptions()
-
+  window.app= {
+    setOrder: setOrder,
+    order: order,
+    setTotalBill: setTotalBill,
+    totalBill: totalBill
   }
 
   return (
     <main className={css(styles.main)}>
       <article className={css(styles.menuContainer, styles.main)}>
-        <form className={css(styles.forms, styles.main)}>
+        <form className={css(styles.main)}>
           <Input
             label='Nome do cliente'
             type='text'
@@ -133,86 +101,87 @@ function App() {
             </>
           }
         />
-
         <Container
-          content={product.map((product) => {
+          content={product.map((item) => {
             return (
               <ProductCard
-                key={product.id}
-                id={product.id}
-                img={product.data.img}
-                title={product.data.name}
-                price={product.data.price}
-                options={product.data.options}
-                additionals={product.data.additional}
-                handleClick={criateOrder}
-                handleSubmit= {handleSubmit}
+                key={item.id}
+                id={item.id}
+                img={item.data.img}
+                title={item.data.name}
+                price={item.data.price}
+                options={item.data.options}
+                additionals={item.data.additional}
+                handleClick={()=> createOrder(item)}
+                item= {item}
               />
             )
           },
           )}
         />
       </article>
-      <aside className={css(styles.orderDiv)}>
+      <aside className={css(styles.orderContainer)}>
         <h3>Meu Pedido</h3>
-        <section className={css(styles.orderInfo)}>
+        {/* <section className={css(styles.clientInfo)}>
           <OrderParagraph
             title='Cliente'
-            content={client.toUpperCase()}
-            span={css(styles.clientInfo, styles.txtTop)}
-            primarySpan={css(styles.txtTop)}
+            value={client.toUpperCase()}
+            styles={styles.clientStyle}
           />
           <OrderParagraph
             title='Nº da mesa'
-            content={table}
-            span={css(styles.clientInfo, styles.txtTop)}
+            value={table}
+            styles={styles.clientStyle}
           />
-        </section>
-        <section className={css(styles.orderContainer, styles.main)}>
+        </section> */}
+        <section className={css(styles.productOrder, styles.main)}>
           {order.map(item => {
             return (
               <OrderParagraph
-                key={item.name}
-                title={item.name}
-                primaryContent='R$'
-                content={item.price}
-                span={css(styles.price)}
-                primarySpan={css(styles.title)}
+                key={item.id}
+                id={item.id}
+                title={item.id}
+                currency='R$'
+                value={item.data.price}
+                options={item.data.options}
+                additionals={item.data.additional}
+                count={order.length}
               />
             )
           })}
         </section>
         <section>
-          <OrderParagraph
+          <p className={css(styles.paragraph)}>
+              <span className={css(styles.title)}>
+                  Total
+              </span>
+              <span className={css(styles.price)}>
+                  R$
+                  {totalBill}
+              </span>        
+          </p>
+          {/* <OrderParagraph
             title='Total'
-            primaryContent='R$ '
-            content={
+            currency='R$ '
+            value=
+            {
               totalBill.reduce((accumulator, currentValue) =>
-                accumulator + currentValue)
+              accumulator + currentValue)
             }
-            span={css(styles.title, styles.totalBill)}
-          />
-          <hr />
-          <button className={css(styles.sendOrder, styles.title)}>
-            Enviar pedido ⟶
-          </button>
+            styles={styles.totalBill}
+          /> */}
+          <hr/>
+          <SendButton title='Fazer pedido' />        
         </section>
       </aside>
     </main>
   );
 }
 
-
 const styles = StyleSheet.create({
 
   main: {
     display: 'flex',
-  },
-
-  banner: {
-    width: '100%',
-    borderRadius: 30,
-    height: '25vh'
   },
 
   menuContainer: {
@@ -222,77 +191,48 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 
-  forms: {
-    flexDirection: 'row',
-  },
-
   h2: {
     justifyContent: "flex-start",
     width: '89%'
   },
 
-  orderInfo: {
-    padding: 8,
-    borderRadius: 12,
-    backgroundColor: '#ff4a4a',
-    color: '#ffffff',
-    flexDirection: 'column',
-    height: '9vw',
-    width: '35vw',
-    fontSize: 20,
-    marginTop: -10,
-  },
-
-  orderDiv: {
+  orderContainer: {
     padding: '1.5vw',
     backgroundColor: '#FBFBF9',
     width: '40vw',
     borderLeft: 'solid 1px #e8e6e6'
   },
 
-  orderContainer: {
-    height: '53vh',
+  clientInfo: {
+    alignItems: 'center',
     flexDirection: 'column',
-    padding: 10,
+    backgroundColor: '#ff4a4a',
+    color: '#fff',
+    fontSize: 20,
+    borderRadius: 12,
+    padding: 2,
+    marginTop: -12,
+    marginBottom: 10
+  },
+
+  productOrder: {
+    height: '45vw',
+    flexDirection: 'column',
   },
 
   totalBill: {
-    fontSize: 20
-  },
-
-  order: {
-    height: '60vh'
-  },
-
-  sendOrder: {
-    display: 'flex',
-    justifyContent: 'center',
-    height: '7vw',
-    width: '20vw',
-    backgroundColor: '#F8D956',
-    border: 'none',
-    borderRadius: 15,
-    padding: 15,
-    marginLeft: '50%',
-    fontSize: 16
-  },
-
-  price: {
-    color: '#9c9898'
+    fontSize: 20,
+    color: '#000',
+    fontWeight: 'bold'
   },
 
   title: {
     fontWeight: 'bold'
   },
 
-  clientInfo: {
+  clientStyle: {
     color: '#fffeb3',
   },
-
-  txtTop: {
-    marginTop: -10
-  }
 });
 
 export default App;
-// se tiver options quando o produto for clicado, abre uma abinha que mostra as options

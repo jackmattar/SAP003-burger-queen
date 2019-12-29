@@ -47,8 +47,33 @@ const ProductCard = (props) => {
     ) 
   }
 
-  window.app = {
-    showOptions: showOptionsDiv
+
+  const handleSubmit = (event, pdt) => {
+    event.preventDefault()
+    const item = event.target
+    const selectedOption = item.options.value
+    const extras = item.extras
+    let selectedAdditional = []
+    extras.forEach(element => {
+      return (        
+        element.checked === true
+        ? selectedAdditional= [...selectedAdditional, element.value]
+        : ''
+      )
+    });
+    const price = Number(pdt.data.price) + Number(selectedAdditional.length)
+    window.app.setOrder([...window.app.order,
+      { id: pdt.id,
+        data: {
+          name: pdt.data.name,
+          price: price,
+          options: selectedOption,
+          additional: selectedAdditional,
+        }
+      }
+    ])
+    window.app.setTotalBill(window.app.totalBill+price)
+    return showOptionsDiv()
   }
 
   return (
@@ -67,7 +92,7 @@ const ProductCard = (props) => {
           </span>
         </div>
         <div className={css(styles.modal)}>
-          <form className={css(styles.form)} onSubmit={props.handleSubmit}>
+          <form className={css(styles.form)} onSubmit={(event)=> handleSubmit(event,props.item)}>
             <div id='options'>
               <h3>Opções de Hambúrguer</h3>
               {props.options.map((option) => {
@@ -87,13 +112,11 @@ const ProductCard = (props) => {
                     <input type='checkbox' id='extras' value={add} name='options' key={add}/>
                     <label>{add}</label>
                   </p>
-                  
                 )
               })}
             </div>
             <button>Adicionar ao pedido</button>
           </form>
-          
         </div>
       </section>
     )
@@ -110,10 +133,6 @@ const ProductCard = (props) => {
       </span>
     </div>
   );
-  
 };
-
-
-
 
 export default ProductCard
