@@ -49,14 +49,11 @@ function App() {
   };
 
   const createOrder = (product) => {
-    console.log(product)
-    
     if(order.includes(product)){
       product.data.count = product.data.count+1;
     } else {
       setOrder([...order, product])
     }
-    console.log(order)
     return setTotalBill(totalBill + Number(product.data.price))
   }
 

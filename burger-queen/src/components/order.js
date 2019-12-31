@@ -33,17 +33,19 @@ const Order = (props) => {
                 (props.order).map(item => {
                     return (
                         <ProductParagraph
-                        key={item.id}
-                        id={item.id}
-                        title={item.id}
+                        key={item.id+item.data.selectedAdd+item.data.selectedOption}
+                        id={item.id+item.data.selectedAdd+item.data.selectedOption}
+                        title={item.data.name}
                         currency='R$'
                         value={item.data.price}
+                        totalPrice={item.data.totalPrice}
                         options={item.data.selectedOption}
                         additionals={item.data.selectedAdd}
                         setTotalBill={props.setTotalBill}
                         totalBill={props.totalBill}
                         order={props.order}
                         item={item}
+                        count={item.data.count}
                         />
                     )
                 })

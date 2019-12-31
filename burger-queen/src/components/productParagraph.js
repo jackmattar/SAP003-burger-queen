@@ -1,23 +1,32 @@
-import React, { useState} from 'react';
+import React from 'react';
 import { StyleSheet, css } from 'aphrodite';
 
 const ProductParagraph =(props) =>{
+    props.item.id = props.id;
     const totalPrice = Number(props.value)*(props.item.data.count);
-    
-    const addItem = (item) => {;
+    const addItem = (item) => {
         item.data.count = item.data.count+1
         return window.app.setTotalBill(props.totalBill+Number(props.value));
     }; 
     
     const deletItem = (item, id) => {
+        const validateOption = () => {
+            if(props.options){
+                const finalPrice = props.value + props.additionals.length
+                window.app.setTotalBill(props.totalBill-finalPrice)
+            } else {
+                window.app.setTotalBill(props.totalBill-Number(props.value))
+            }
+        }
+
         if(props.item.data.count === 1){
             const newOrder = props.order.filter((el)=> {return el.id !== id});
             window.app.setOrder(newOrder);
-            item.data.count = item.data.count-1
-            return window.app.setTotalBill(props.totalBill-Number(props.value));
-        };
-        item.data.count = item.data.count-1
-        return  window.app.setTotalBill(props.totalBill-Number(props.value));
+            validateOption()
+        } else {
+            item.data.count = item.data.count-1;
+            validateOption()
+        }
     };
 
     return(
@@ -28,14 +37,14 @@ const ProductParagraph =(props) =>{
                 <span className={css(styles.title)}>
                     {props.title}
                 </span>
-                <span className={css(styles.buttons)}>
-                    <button onClick={()=>{deletItem(props.item, props.id)}}>
+                <span className={css(styles.amount)}>
+                    <button className={css(styles.button)} onClick={()=>{deletItem(props.item, props.id)}}>
                         -
                     </button>
-                    <span>
-                        {props.item.data.count}
+                    <span className={css(styles.count)}>
+                        {props.count}
                     </span>
-                    <button onClick={()=>{addItem(props.item)}}>
+                    <button className={css(styles.button)} onClick={()=>{addItem(props.item)}}>
                         +
                     </button>
                 </span>
@@ -46,8 +55,8 @@ const ProductParagraph =(props) =>{
             </p>
             <ul className={css(styles.extras)}>
                 <li>{props.options}</li>
-                <li>{props.additionals[0]}</li>
-                <li>{props.additionals[1]}</li>
+                <li>{props.additionals[0] ? props.additionals[0] + ' extra':null}</li>
+                <li>{props.additionals[1] ? props.additionals[1] + ' extra':null}</li>
             </ul>
             </>
         )
@@ -55,14 +64,14 @@ const ProductParagraph =(props) =>{
             <span className={css(styles.title)}>
                 {props.title}
             </span>
-            <span className={css(styles.buttons)}>
-                <button onClick={()=>{deletItem(props.item, props.id)}}>
+            <span className={css(styles.amount)}>
+                <button className={css(styles.button)} onClick={()=>{deletItem(props.item, props.id)}}>
                     -
                 </button>
-                <span>
+                <span className={css(styles.count)}>
                     {props.item.data.count}
                 </span>
-                <button onClick={()=>{addItem(props.item)}}>
+                <button className={css(styles.button)} onClick={()=>{addItem(props.item)}}>
                     +
                 </button>
             </span>
@@ -99,13 +108,32 @@ const styles = StyleSheet.create({
         listStyleType: 'none'
     },
 
-    buttons: {
+    amount: {
         display: 'flex',
         justifyContent: 'center',
+        alignItems: 'center',
         width: '40%',
+    },
 
+    button: {
+        backgroundColor: '#85b4ff',
+        border: 'none',
+        width: '3vw',
+        height: '3vw',
+        fontSize: 20,
+        borderRadius: 3,
+    },
+
+    count: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '4vw',
+        height: '2.9vw',
+        backgroundColor: '#fff',
+        fontWeight: 'bold',
+        border: 'solid 0.5px #999'
     }
-})
-
+});
 
 export default ProductParagraph;

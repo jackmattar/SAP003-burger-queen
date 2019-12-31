@@ -57,28 +57,43 @@ const ProductCard = (props) => {
       return element.checked ? selectedAdd.push(element.value):null
     });
     pdt.data.selectedOption = selectedOption;
-    
+    pdt.data.selectedAdd = selectedAdd;
     const price = pdt.data.price + selectedAdd.length;
-
-    if(props.order.includes(pdt)){
-      const firstAdd = selectedAdd[0] === pdt.data.selectedAdd[0];
-      const secondAdd = selectedAdd[1] === pdt.data.selectedAdd[1];
-      const option = pdt.data.selectedOption === selectedOption;
-      
-      if(option && (firstAdd && secondAdd) === true){
-          pdt.data.count = pdt.data.count+1
-          pdt.data.totalPrice = price
-          window.app.setOrder([...props.order])
-          window.app.setTotalBill(window.app.totalBill+price);
-      } else {
-        console.log('não é totalmente igual')
+    const newPdt = {
+      id: pdt.id,
+      data: {
+        name: pdt.data.name,
+        selectedAdd: selectedAdd,
+        selectedOption: selectedOption,
+        count: pdt.data.count,
+        price: pdt.data.price,
+        totalPrice: price,
       }
-    } else {
-      pdt.data.selectedAdd = selectedAdd;
-      pdt.data.totalPrice = price;
-      window.app.setOrder([...props.order, pdt]);
-      window.app.setTotalBill(window.app.totalBill + price);
-    }
+    };
+
+    window.app.setOrder([...props.order, newPdt]);
+    window.app.setTotalBill(window.app.totalBill + price);
+
+    props.order.forEach(element => {
+      const name = element.data.name === pdt.data.name
+      const option = element.data.selectedOption === pdt.data.selectedOption;
+      if(element.data.selectedAdd){
+        const firstAdd = element.data.selectedAdd[0] === pdt.data.selectedAdd[0];
+        const secondAdd = element.data.selectedAdd[1] === pdt.data.selectedAdd[1];
+        if((option && name) && (firstAdd && secondAdd) === true){
+          element.data.count = element.data.count+1;
+          element.data.totalPrice = price;
+          window.app.setOrder([...props.order]);
+          window.app.setTotalBill(window.app.totalBill+price);
+        } else {
+          pdt.data.selectedAdd = selectedAdd;
+          pdt.data.totalPrice = price;
+          window.app.setOrder([...props.order, newPdt]);
+          window.app.setTotalBill(window.app.totalBill + price);
+        };
+      }
+    });
+
     return showOptionsDiv();
   }
   
