@@ -1,14 +1,14 @@
 import React from 'react';
 import { StyleSheet, css } from 'aphrodite';
 
-const Button = (props) => {
+const MenuButton = (props) => {
   return (
       <button 
         type='button' 
         id={props.id} 
         className={css(styles.menuButton)} 
         onClick={props.onClick} >
-          <img src={props.img} className={css(styles.iconButton)} ></img>
+          <img src={props.img} className={css(styles.iconButton)} alt={props.title} ></img>
           {props.title}
         </button>
   );
@@ -36,5 +36,5 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Button
+export default MenuButton
   

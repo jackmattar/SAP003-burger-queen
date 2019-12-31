@@ -47,35 +47,41 @@ const ProductCard = (props) => {
     ) 
   }
 
-
   const handleSubmit = (event, pdt) => {
-    event.preventDefault()
-    const item = event.target
-    const selectedOption = item.options.value
-    const extras = item.extras
-    let selectedAdditional = []
+    event.preventDefault();
+    const item = event.target;
+    const selectedOption = item.options.value;
+    const extras = item.extras;
+    const selectedAdd = [];
     extras.forEach(element => {
-      return (        
-        element.checked === true
-        ? selectedAdditional= [...selectedAdditional, element.value]
-        : ''
-      )
+      return element.checked ? selectedAdd.push(element.value):null
     });
-    const price = Number(pdt.data.price) + Number(selectedAdditional.length)
-    window.app.setOrder([...window.app.order,
-      { id: pdt.id,
-        data: {
-          name: pdt.data.name,
-          price: price,
-          options: selectedOption,
-          additional: selectedAdditional,
-        }
-      }
-    ])
-    window.app.setTotalBill(window.app.totalBill+price)
-    return showOptionsDiv()
-  }
+    pdt.data.selectedOption = selectedOption;
+    
+    const price = pdt.data.price + selectedAdd.length;
 
+    if(props.order.includes(pdt)){
+      const firstAdd = selectedAdd[0] === pdt.data.selectedAdd[0];
+      const secondAdd = selectedAdd[1] === pdt.data.selectedAdd[1];
+      const option = pdt.data.selectedOption === selectedOption;
+      
+      if(option && (firstAdd && secondAdd) === true){
+          pdt.data.count = pdt.data.count+1
+          pdt.data.totalPrice = price
+          window.app.setOrder([...props.order])
+          window.app.setTotalBill(window.app.totalBill+price);
+      } else {
+        console.log('não é totalmente igual')
+      }
+    } else {
+      pdt.data.selectedAdd = selectedAdd;
+      pdt.data.totalPrice = price;
+      window.app.setOrder([...props.order, pdt]);
+      window.app.setTotalBill(window.app.totalBill + price);
+    }
+    return showOptionsDiv();
+  }
+  
   return (
     props.options?
     (

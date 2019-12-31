@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { db } from './firebase.js';
 import { StyleSheet, css } from 'aphrodite';
-import Button from './components/button';
+import MenuButton from './components/menuButton';
 import ProductCard from './components/productCard';
-import OrderParagraph from './components/paragraph'
-import Container from './components/menuContainer';
+import Order from './components/order'
+import Section from './components/section';
 import Input from './components/input';
-import SendButton from './components/sendButton'
+
 
 function App() {
   const [menus, setMenus] = useState([]);
@@ -49,7 +49,14 @@ function App() {
   };
 
   const createOrder = (product) => {
-    setOrder([...order, product])
+    console.log(product)
+    
+    if(order.includes(product)){
+      product.data.count = product.data.count+1;
+    } else {
+      setOrder([...order, product])
+    }
+    console.log(order)
     return setTotalBill(totalBill + Number(product.data.price))
   }
 
@@ -75,25 +82,26 @@ function App() {
             onChange={clientTable}
           />
         </form>
-        <h2 className={css(styles.h2, styles.main)}> Selecione o menu
-          <span role='img' alt-label='burger emoji'> 🍔</span>
+        <h2 className={css(styles.h2)}> Selecione o menu
+          <span role="img"  aria-labelledby='burger emoji'> 🍔 </span>
         </h2>
-        <Container
+        <Section
+          style={styles.menu}
           content={
             <>
-              <Button
+              <MenuButton
                 img='http://bit.ly/2S90vuo'
                 onClick={chosenMenu}
                 title='Menu Completo'
                 id='all'
               />
-              <Button
+              <MenuButton
                 img='http://bit.ly/35FQFUT'
                 onClick={chosenMenu}
                 title='Café da Manhã'
                 id='breakfast'
               />
-              <Button
+              <MenuButton
                 img='http://bit.ly/38QUoAV'
                 onClick={chosenMenu}
                 title='Restante do dia'
@@ -101,7 +109,8 @@ function App() {
             </>
           }
         />
-        <Container
+        <Section
+          style={styles.menu}
           content={product.map((item) => {
             return (
               <ProductCard
@@ -114,65 +123,20 @@ function App() {
                 additionals={item.data.additional}
                 handleClick={()=> createOrder(item)}
                 item= {item}
+                order={order}
               />
             )
-          },
-          )}
+           })
+          }
         />
       </article>
       <aside className={css(styles.orderContainer)}>
-        <h3>Meu Pedido</h3>
-        {/* <section className={css(styles.clientInfo)}>
-          <OrderParagraph
-            title='Cliente'
-            value={client.toUpperCase()}
-            styles={styles.clientStyle}
-          />
-          <OrderParagraph
-            title='Nº da mesa'
-            value={table}
-            styles={styles.clientStyle}
-          />
-        </section> */}
-        <section className={css(styles.productOrder, styles.main)}>
-          {order.map(item => {
-            return (
-              <OrderParagraph
-                key={item.id}
-                id={item.id}
-                title={item.id}
-                currency='R$'
-                value={item.data.price}
-                options={item.data.options}
-                additionals={item.data.additional}
-                count={order.length}
-              />
-            )
-          })}
-        </section>
-        <section>
-          <p className={css(styles.paragraph)}>
-              <span className={css(styles.title)}>
-                  Total
-              </span>
-              <span className={css(styles.price)}>
-                  R$
-                  {totalBill}
-              </span>        
-          </p>
-          {/* <OrderParagraph
-            title='Total'
-            currency='R$ '
-            value=
-            {
-              totalBill.reduce((accumulator, currentValue) =>
-              accumulator + currentValue)
-            }
-            styles={styles.totalBill}
-          /> */}
-          <hr/>
-          <SendButton title='Fazer pedido' />        
-        </section>
+        <Order 
+          order={order}
+          client={client}
+          table={table}
+          totalBill={totalBill}
+        />
       </aside>
     </main>
   );
@@ -203,36 +167,12 @@ const styles = StyleSheet.create({
     borderLeft: 'solid 1px #e8e6e6'
   },
 
-  clientInfo: {
-    alignItems: 'center',
-    flexDirection: 'column',
-    backgroundColor: '#ff4a4a',
-    color: '#fff',
-    fontSize: 20,
-    borderRadius: 12,
-    padding: 2,
-    marginTop: -12,
-    marginBottom: 10
-  },
-
-  productOrder: {
-    height: '45vw',
-    flexDirection: 'column',
-  },
-
-  totalBill: {
-    fontSize: 20,
-    color: '#000',
-    fontWeight: 'bold'
-  },
-
-  title: {
-    fontWeight: 'bold'
-  },
-
-  clientStyle: {
-    color: '#fffeb3',
-  },
+  menu: {
+    display: "flex",
+    justifyContent: 'center',
+    flexDirection: 'row',
+    flexWrap: 'wrap'
+  }
 });
 
 export default App;
