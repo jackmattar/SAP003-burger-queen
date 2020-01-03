@@ -3,7 +3,11 @@ import { StyleSheet, css } from 'aphrodite';
 
 const SendButton = (props) => {
     return (
-        <button className={css(styles.sendOrder)} onClick={props.handleClick}>
+        <button 
+            className={css(styles.sendOrder, props.style)} 
+            onClick={props.handleClick}
+            id={props.id}
+        >
             {props.title}
         </button>
     );
