@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^7.1.2",
     "aphrodite": "^2.4.0",
     "firebase": "^7.5.2",
+    "hmh": "^2.0.4",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-scripts": "3.3.0"
