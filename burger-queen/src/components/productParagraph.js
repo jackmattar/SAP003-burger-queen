@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, css } from 'aphrodite';
+import OptionsUl from'../components/optionsUl';
 
 const ProductParagraph =(props) =>{
     props.item.id = props.id;
@@ -30,37 +31,8 @@ const ProductParagraph =(props) =>{
     };
 
     return(
-        props.options
-        ? (
-            <>
-            <p className={css(styles.paragraph)}>
-                <span className={css(styles.title)}>
-                    {props.title}
-                </span>
-                <span className={css(styles.amount)}>
-                    <button className={css(styles.button)} onClick={()=>{deletItem(props.item, props.id)}}>
-                        -
-                    </button>
-                    <span className={css(styles.count)}>
-                        {props.count}
-                    </span>
-                    <button className={css(styles.button)} onClick={()=>{addItem(props.item)}}>
-                        +
-                    </button>
-                </span>
-                <span className={css(styles.price)}>
-                    {props.currency}
-                    {props.item.data.totalPrice*props.item.data.count}
-                </span>
-            </p>
-            <ul className={css(styles.extras)}>
-                <li>{props.options}</li>
-                <li>{props.additionals[0] ? props.additionals[0] + ' extra':null}</li>
-                <li>{props.additionals[1] ? props.additionals[1] + ' extra':null}</li>
-            </ul>
-            </>
-        )
-        : <p className={css(styles.paragraph)}>
+        <>
+         <p className={css(styles.paragraph)}>
             <span className={css(styles.title)}>
                 {props.title}
             </span>
@@ -80,6 +52,11 @@ const ProductParagraph =(props) =>{
                 {totalPrice}
             </span>        
         </p>
+        <OptionsUl
+            options={props.options}
+            additionals={props.additionals}
+        />    
+        </>
     );
 };
 
@@ -101,11 +78,6 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
         width: '10%',
         color: '#9c9898'
-    },
-
-    extras: {
-        marginTop: -10,
-        listStyleType: 'none'
     },
 
     amount: {
