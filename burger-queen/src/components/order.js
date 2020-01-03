@@ -4,8 +4,42 @@ import Section from './section';
 import ProductParagraph from './productParagraph';
 import Paragraph from './paragraph';
 import SendButton from './sendButton';
+import { db } from '../firebase';
 
 const Order = (props) => {
+
+    const sendOrder = () => {
+        if ((props.client && props.table) === ''){
+            alert('Preencha Nome do cliente e Mesa')
+        } else if(props.order.length === 0) {
+            alert('Adicione produtos ao pedido')
+        } else {
+            const now = new Date();
+            const h = now.getHours();
+            const m = now.getMinutes();
+            const s = now.getSeconds();
+            const hour = `${h}:${m}:${s}`
+            
+            const order = {
+                client: props.client.toUpperCase(),
+                table: props.table,
+                order: props.order,
+                status: 'Em preparo',
+                initialTime: hour,
+                totalTime: ''
+            };
+    
+            db.collection('Pedidos')
+            .doc(props.id)
+            .set(order);
+
+            alert('Pedido enviado');
+            props.setOrder([]);
+            props.setTotalBill(0);
+            props.setClient('');
+            props.setTable('');
+        }
+    }
 
     return (
         <>
@@ -62,7 +96,7 @@ const Order = (props) => {
                     content={
                         <>
                         <hr/>
-                        <SendButton title='Enviar para cozinha' />
+                        <SendButton title='Enviar para cozinha' handleClick={sendOrder} />
                         </>
                     }
 
