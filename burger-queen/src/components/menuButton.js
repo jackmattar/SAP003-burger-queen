@@ -6,7 +6,7 @@ const MenuButton = (props) => {
       <button 
         type='button' 
         id={props.id} 
-        className={css(styles.menuButton)} 
+        className={css(styles.menuButton, props.style)} 
         onClick={props.onClick} >
           <img src={props.img} className={css(styles.iconButton)} alt={props.title} ></img>
           {props.title}
