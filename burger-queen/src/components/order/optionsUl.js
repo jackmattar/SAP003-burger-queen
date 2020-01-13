@@ -13,7 +13,7 @@ const OptionsUl = (props) => {
                         {
                             props.additionals[1]
                             ? <li >
-                                {props.additionals[1]  + 'extra'}
+                                {props.additionals[1]  + ' extra'}
                               </li>
                             : null
                         }

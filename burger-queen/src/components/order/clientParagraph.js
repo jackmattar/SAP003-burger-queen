@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, css } from 'aphrodite';
 
-const Paragraph = (props) => {
+export default function ClientParagraph(props){
 
     const styles = StyleSheet.create({
         paragraph: {
@@ -27,7 +27,7 @@ const Paragraph = (props) => {
                 {props.title}
             </span>
             <span className={css(styles.color, props.style)}>
-                {(props.primaryContent).toUpperCase()}
+                {props.primaryContent != '' ? props.primaryContent.toUpperCase() : props.primaryContent }
                 {props.totalBill}
             </span>
         </p>
@@ -35,5 +35,3 @@ const Paragraph = (props) => {
         </>
     );
 };
-
-export default Paragraph;
