@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, css } from 'aphrodite';
 import firebase from 'firebase';
 import { db } from "../util/firebase";
 import Init from './initalPage';

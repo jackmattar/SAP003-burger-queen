@@ -51,7 +51,7 @@ export default function NewOrder (){
 
     const createOrderWithOp = (product, e) => {
         e.preventDefault();
-        if(selectedOp != ''){
+        if(selectedOp !== ''){
             const extras = [];
 
             e.target.extras.forEach(element => {
@@ -79,7 +79,7 @@ export default function NewOrder (){
 
             order.forEach( item => {
                 const name = item.data.name === product.data.name;
-                const options = item.data.selectedOption == product.data.selectedOption;
+                const options = item.data.selectedOption === product.data.selectedOption;
                 if(item.data.selectedAdd){
                     const primaryAdd = item.data.selectedAdd[0] === product.data.selectedAdd[0];
                     const secondAdd = item.data.selectedAdd[1] === product.data.selectedAdd[1];
@@ -110,11 +110,13 @@ export default function NewOrder (){
                         label= 'Nome do Cliente'
                         type='text'
                         onChange={(e) => setClient(e.target.value)}
+                        state={client}
                     />
                     <Input 
                         label= 'Mesa'
                         type='number'
                         onChange={(e) => setTable(e.target.value)}
+                        state={table}
                     />
                 </div>
                 <h2 className={css(styles.h2)}>
@@ -123,19 +125,19 @@ export default function NewOrder (){
                 </h2>
                 <div className={css(styles.flex, styles.flow)}>
                     <MenuButton
-                        img='http://bit.ly/2S90vuo'
+                        img='https://i.ibb.co/KxKwRg6/menu-icon.png'
                         handleClick={(e) => chooseMenu(e)}
                         title='Menu Completo'
                         id='all'
                     />
                     <MenuButton
-                        img='http://bit.ly/2sJ6KKZ'
+                        img='https://i.ibb.co/HqM4rp2/coffee-icon.png'
                         handleClick={(e) => chooseMenu(e)}
                         title='Café da Manhã'
                         id='breakfast'
                     />
                     <MenuButton
-                        img='http://bit.ly/38QUoAV'
+                        img='https://i.ibb.co/7KTh93M/burger-icon.png'
                         handleClick={(e) => chooseMenu(e)}
                         title='Restante do dia'
                     />

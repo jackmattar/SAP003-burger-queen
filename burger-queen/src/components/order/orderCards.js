@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import OptionsUl from './optionsUl';
 import SendButton from './sendButton'

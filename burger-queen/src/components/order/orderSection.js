@@ -9,7 +9,8 @@ import 'growl-alert/dist/growl-alert.css';
 
 export default function OrderSection(props){
 
-    const sendOrder = () => {
+    const sendOrder = (e) => {
+        console.log(e.target.parentElement)
         if ((props.client && props.table) === ''){
             growl({text: 'Preencha Nome do cliente e Mesa', type: 'warning', fadeAway: true, fadeAwayTimeout: 3000})
         } else if(props.order.length === 0) {
@@ -86,7 +87,7 @@ export default function OrderSection(props){
                 content={
                     <>
                     <hr className={css(styles.hr)}/>
-                    <SendButton title='Enviar para cozinha' handleClick={sendOrder} />
+                    <SendButton title='Enviar para cozinha' handleClick={(e) => sendOrder(e)} />
                     </>
                 }
 

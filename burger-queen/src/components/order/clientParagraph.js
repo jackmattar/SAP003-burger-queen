@@ -27,7 +27,11 @@ export default function ClientParagraph(props){
                 {props.title}
             </span>
             <span className={css(styles.color, props.style)}>
-                {props.primaryContent != '' ? props.primaryContent.toUpperCase() : props.primaryContent }
+                {  
+                    (props.primaryContent !== '') && (props.primaryContent === typeof String)
+                    ? props.primaryContent.toUpperCase()
+                    : props.primaryContent
+                }
                 {props.totalBill}
             </span>
         </p>
@@ -35,3 +39,4 @@ export default function ClientParagraph(props){
         </>
     );
 };
+// : 

@@ -6,7 +6,6 @@ import {
   Link
 } from "react-router-dom";
 import firebase from 'firebase';
-import Init from '../pages/initalPage'
 import Kitchen from '../pages/Kitchen/kitchen';
 import NewOrder from '../pages/Waiter/newOrder';
 import WaiterDoneOrders from '../pages/Waiter/waiterDoneOrders';

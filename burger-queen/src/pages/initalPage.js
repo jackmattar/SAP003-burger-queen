@@ -66,11 +66,34 @@ const styles = StyleSheet.create({
       
       btn: {
         width: '20vw',
-        borderRadius: 20,
-        border: 'none'
+        boxShadow:'inset 0px 1px 0px 0px #fff',
+        background:'linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%)',
+        backgroundColor:'#f9f9f9',
+        borderRadius: '2vw',
+        border:'1px solid #dcdcdc',
+        display: 'inline-block',
+        cursor:'pointer',
+        color:'#666',
+        fontFamily:'Arial',
+        fontSize:18,
+        fontWeight:'bold',
+        padding:'23px 39px',
+        textDecoration:'none',
+        textShadow: '0px 1px 0px #fff',
+        ':hover': {
+            background:'linear-gradient(to bottom, #e9e9e9 5%, #f9f9f9 100%)',
+         	backgroundColor:'#e9e9e9'
+        },
+        ':active': {
+            position:'relative',
+            top: 3
+        }
       },
 
       aside: {
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
           width: '45vw'
       }
 });
