@@ -5,14 +5,13 @@ import Input from '../../components/input';
 import MenuButton from '../../components/menuButton';
 import ProductCard from '../../components/order/productCard/productCard';
 import OrdeSection from '../../components/order/orderSection';
-import growl from 'growl-alert';
-import 'growl-alert/dist/growl-alert.css';
+import Header from '../../components/header';
 
 export default function NewOrder (){
     const [allMenu, setAllMenu] = useState([]);
     const [chosenMenu, setChosenMenu] = useState([]);
     const [client, setClient] = useState('');
-    const [table, setTable] = useState(0);
+    const [table, setTable] = useState('');
     const [order, setOrder] = useState([]);
     const [selectedOp, setOption] = useState('');
     const [totalBill, setTotalBill] = useState(0);
@@ -97,12 +96,17 @@ export default function NewOrder (){
                 return element.checked = false
             });
 
-        } else {
-            growl({text: 'ESCOLHA UMA OPÇÃO', type: 'warning', fadeAway: true, fadeAwayTimeout: 3000})
         };
     };
 
     return(
+        <>
+        <Header 
+            primaryLink='Novo Pedido'
+            primaryRoute='/waiter' 
+            secondLink='Pedidos Prontos'
+            secondRoute='/waiter-done-orders'
+        />
         <article className={css(styles.flex)}>
             <section className={css(styles.article, styles.flex, styles.column)}>
                 <div className={css(styles.div, styles.flex, styles.flow)}>
@@ -157,6 +161,7 @@ export default function NewOrder (){
                                 handleSubmit = {(e) => createOrderWithOp(element, e)}
                                 setOption ={setOption}
                                 item= {element}
+                                selectedOp = {selectedOp}
                             />
                         )})
                     }
@@ -176,6 +181,7 @@ export default function NewOrder (){
                 />
             </section>
         </article>
+        </>
     );
 };
 

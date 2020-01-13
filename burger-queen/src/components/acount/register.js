@@ -11,11 +11,11 @@ export default function Register() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
-    const [sector, setSector] = useState('kitchen')
+    const [sector, setSector] = useState('');
 
     const makeRegister = (e) => {
         e.preventDefault()
-        if(name === ''){
+        if(name === '' || sector === ''){
             growl(
                 {
                     text: "Preencha todos os campos",
@@ -96,7 +96,8 @@ export default function Register() {
                         <span className={css(styles.span)}>
                             <Radio
                                 value='kitchen'
-                                name='options'
+                                name='sector'
+                                id='kitchen'
                                 onChange={(e)=> setSector(e.target.value)}
                                 for='kitchen'
                                 title= 'Cozinha'
@@ -105,7 +106,8 @@ export default function Register() {
                         <span className={css(styles.span)}>
                             <Radio
                                 value='waiter'
-                                name='options'
+                                name='sector'
+                                id='waiter'
                                 onChange={(e)=> setSector(e.target.value)}
                                 for='waiter'
                                 title= 'Garçon / Garçonete'

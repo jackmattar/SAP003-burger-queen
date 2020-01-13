@@ -15,7 +15,7 @@ export default function Login() {
             firebase
                 .auth()
                 .signInWithEmailAndPassword(email, password)
-                .then(user => console.log(user))
+                .then()
                 .catch(error => {
                     growl(
                         {

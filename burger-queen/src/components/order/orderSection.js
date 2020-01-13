@@ -73,6 +73,7 @@ export default function OrderSection(props){
                         totalPrice={product.data.totalPrice}
                         totalBill={props.totalBill}
                         setTotalBill={props.setTotalBill}
+                        key = {product.id+product.data.selectedAdd+product.data.selectedOption}
                     />
                 );
             })}

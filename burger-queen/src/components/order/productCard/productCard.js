@@ -1,68 +1,75 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import './options.css';
 import OptionsForm from '../optionsForm';
+import growl from 'growl-alert';
+import 'growl-alert/dist/growl-alert.css';
 
 const ProductCard = (props) => {
   const [showOp, setShowOp] = useState(false);
   const [display, setDisplay] = useState('none');
 
-  const style= StyleSheet.create({
+  const style = StyleSheet.create({
     flex: {
-      display: display
-    }
+      display: display,
+    },
   });
 
   const showOptionsDiv = () => {
-    setShowOp(!showOp) 
-    return(
+    setShowOp(!showOp)
+    return (
       showOp === true ? (
         setDisplay('flex')
       ) : setDisplay('none')
     );
   };
 
-  const banana = (e) => {
-    props.handleSubmit(e)
-    return showOptionsDiv;
+  const handleSubmit = (e) => {
+    props.handleSubmit(e);
+    console.log(props.selectedOp)
+    if (props.selectedOp === '') {
+      growl({ text: 'ESCOLHA UMA OPÇÃO', type: 'warning', fadeAway: true, fadeAwayTimeout: 3000 })
+    } else {
+      showOptionsDiv();
+    };
   };
 
-  return(
-    <>
-    <div 
-      onClick={props.options ? showOptionsDiv : props.handleClick}
-      id={props.id} 
-      className={css(styles.productCard, styles.flex)}
-    >
-      <img
-        className={css(styles.imgProduct)} 
-        alt="product" 
-        src={props.img}
-      />
-      <span>
-        {props.title}
-        <br/> R$ {props.price}
-      </span>
+  return (
+    <section className={css(styles.flex)}>
+      <div
+        onClick={props.options ? showOptionsDiv : props.handleClick}
+        id={props.id}
+        className={css(styles.productCard, styles.flex)}
+      >
+        <img
+          className={css(styles.imgProduct)}
+          alt="product"
+          src={props.img}
+        />
+        <span>
+          {props.title}
+          <br /> R$ {props.price}
+        </span>
 
-    </div>
-    {
-      props.options
-      ? (
-        <div  className={css(style.flex, styles.modal)}>
-          <OptionsForm
-            title= {props.title}
-            options= {props.options}
-            handleSubmit= {(e) => banana(e)}
-            setOption= {props.setOption}
-            additionals= {props.additionals}
-            id= {props.id}
-          />
-        </div>
-        
-      )
-      : false
-    }
-    </>
+      </div>
+      {
+        props.options
+          ? (
+            <div className={css(style.flex, styles.modal)}>
+              <OptionsForm
+                title={props.title}
+                options={props.options}
+                handleSubmit={(e) => handleSubmit(e)}
+                setOption={props.setOption}
+                additionals={props.additionals}
+                id={props.id}
+              />
+            </div>
+
+          )
+          : false
+      }
+    </section>
   );
 };
 
@@ -73,7 +80,7 @@ const styles = StyleSheet.create({
     display: 'flex'
   },
 
-  productCard:{
+  productCard: {
     flexDirection: 'column',
     margin: '1.5vh',
   },

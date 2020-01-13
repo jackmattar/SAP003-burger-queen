@@ -24,7 +24,7 @@ const OrderParagraph =(props) => {
 
     return(
         <>
-            <p className={css(styles.paragraph)}>
+            <p className={css(styles.paragraph)} key={props.title + props.add}>
                 <span className={css(styles.title)}>
                         {props.title}
                 </span>

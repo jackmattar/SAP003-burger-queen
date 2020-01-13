@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from "react";
 import firebase from 'firebase';
 import { db } from "../util/firebase";
-import Init from './initalPage';
-import Header from '../components/header';
+import Kitchen from '../pages/Kitchen/kitchen';
+import NewOrder from '../pages/Waiter/newOrder';
+import WaiterDoneOrders from '../pages/Waiter/waiterDoneOrders';
+import KitchenDoneOrders from '../pages/Kitchen/kitchenDoneOrders';
+import Init from "../pages/initalPage";
+import {useHistory} from "react-router-dom";
+import {Route} from "react-router-dom";
 
 export default function App() {
-  const [render, setRender] = useState('');
+  const history = useHistory();
 
   useEffect( () => {
     firebase
@@ -18,35 +23,35 @@ export default function App() {
         .get()
         .then( user => {
           if(user.data().sector === 'waiter'){
-            setRender(
-              <Header 
-                primaryLink='Novo Pedido'
-                primaryRoute='/waiter' 
-                secondLink='Pedidos Prontos'
-                secondRoute='/waiter-done-orders'
-              />
-            );
+              history.push('/waiter')
           } else {
-            setRender(
-              <Header 
-                primaryLink='Em preparo'
-                primaryRoute='/kitchen'
-                secondLink='Concluídos'
-                secondRoute='/kitchen-done-orders'
-              />
-            );
+            history.push('/kitchen')
           }
         });
       } else {
-        setRender(<Init/>)
+        history.push('/')
       };
 
     });
-  }, [])
+  }, [history])
 
   return (
     <>
-      {render}
+      <Route exact path="/">
+          <Init />
+        </Route>
+        <Route path="/kitchen">
+          <Kitchen />
+        </Route>
+        <Route path="/kitchen-done-orders">
+          <KitchenDoneOrders />
+        </Route>
+        <Route path="/waiter-done-orders">
+          <WaiterDoneOrders />
+        </Route>
+        <Route path="/waiter">
+          <NewOrder />
+        </Route>
     </>
   )
 };

@@ -1,43 +1,60 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import { db } from '../../util/firebase';
-import OrderCards from '../../components/order/orderCards'
+import OrderCards from '../../components/order/orderCards';
+import Header from '../../components/header';
 
 export default function WaiterDoneOrders() {
     const [ordersToDelivery, setToDelivery] = useState([]);
 
-    useEffect(()=> {
+    useEffect(() => {
         db.collection('Pedidos')
-        .where('status', '==', 'Pronto para servir')
-        .onSnapshot((querySnapshot) => {
-            const doc = querySnapshot.docs.map((doc) => ({
-                id: doc.id, data: doc.data()
-            }));
-            setToDelivery(doc)
-        });
+            .where('status', '==', 'Pronto para servir')
+            .onSnapshot((querySnapshot) => {
+                const doc = querySnapshot.docs.map((doc) => ({
+                    id: doc.id, data: doc.data()
+                }));
+                setToDelivery(doc)
+            });
     }, []);
 
     return (
-        <main className={css(styles.main)}>
-            <article className={css(styles.article, styles.flex, styles.minHeight)}>
-                {ordersToDelivery.map( order => {
-                    return (
-                        <OrderCards
-                            table = {order.data.table}
-                            client = {order.data.client}
-                            totalTime = {order.data.totalTime}
-                            status = {order.data.status}
-                            order = {order.data.order}
-                            orders = {order}
-                            id = {order.id}
-                            waiter = {true}
-                            allOrders = {ordersToDelivery}
-                        />
-                    );
-                })}
-            </article>
-        </main>
-    )
+        <>
+            <Header
+                primaryLink='Novo Pedido'
+                primaryRoute='/waiter'
+                secondLink='Pedidos Prontos'
+                secondRoute='/waiter-done-orders'
+            />
+            <main className={css(styles.main)}>
+                <article className={css(styles.article, styles.flex, styles.minHeight)}>
+                    {
+                        ordersToDelivery.length !== 0 ?
+                            ordersToDelivery.map(order => {
+                                return (
+                                    <OrderCards
+                                        table={order.data.table}
+                                        client={order.data.client}
+                                        totalTime={order.data.totalTime}
+                                        status={order.data.status}
+                                        order={order.data.order}
+                                        orders={order}
+                                        id={order.id}
+                                        allOrders={ordersToDelivery}
+                                    />
+                                );
+                            }) : (
+                                <div className={css(styles.noOrders, styles.flex)}>
+                                    <p>
+                                        Nenhum pedido para entregar.
+                                    </p>
+                                </div>
+                            )
+                    }
+                </article>
+            </main>
+        </>
+    );
 };
 
 const styles = StyleSheet.create({
@@ -45,11 +62,18 @@ const styles = StyleSheet.create({
         display: 'flex'
     },
 
-    article:{
+    article: {
         flexDirection: 'row',
         flexWrap: 'wrap',
         padding: '1.5vw',
         backgroundColor: '#EEEEEF',
         minHeight: 1024
+    },
+
+    noOrders: {
+        width: '100vw',
+        justifyContent: 'center',
+        fontSize: '2.5vw',
+        fontWeight: 'bold'
     }
 });
