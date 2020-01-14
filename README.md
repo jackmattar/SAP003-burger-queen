@@ -6,7 +6,7 @@
 * [2. Resumo do projeto](#2-resumo-do-projeto)
 * [3. Uso e tecnologias implementadas](#3-uso-e-tecnologias-implementadas)
 * [4. Interface](#4-interface)
-* [5. Considerações finais](#6-hacker-edition)
+* [5. Considerações finais](#5-considerações-finais)
 
 ***
 
@@ -115,4 +115,4 @@ Este projeto foi desenvolvido usando as seguintes tecnologias e ferramentas
 
 * Interface foi pensada específicamente para rodar em tablets, mas tem configurações para desktop.
 * O aplicativo é um Single Page App.
-* O projeto foi desenvolvido como parte curricular do Bootcamp Laboratória pela aluna Jackeline Mattar
+* O projeto foi desenvolvido como parte curricular do Bootcamp Laboratória pela aluna Jackeline
