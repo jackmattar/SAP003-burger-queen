@@ -17,7 +17,6 @@ export default function OrderSection(props){
                 setWaiter(user.displayName);
             }
           });
-        console.log(waiter)
     },[]);
 
     const sendOrder = () => {

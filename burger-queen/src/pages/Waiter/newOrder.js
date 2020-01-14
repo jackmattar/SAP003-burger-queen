@@ -232,7 +232,7 @@ const styles = StyleSheet.create({
     aside: {
         padding: '1.5vw',
         backgroundColor: '#FBFBF9',
-        width: '30vw',
+        width: '40vw',
         borderLeft: 'solid 1px #e8e6e6',
         minHeight: '650px',
         '@media (min-width: 1281px)': {

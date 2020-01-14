@@ -16,38 +16,38 @@ export default function OrderCards(props) {
     });
 
     const changeStatus = (id, order, status) => {
-        id === order.id ? 
-        props.allOrders.forEach(element => {
-            if(element.id === id){
-                if(status === 'Concluído'){
-                    db.collection('Pedidos')
-                   .doc(element.id)
-                   .delete()
-                } else if (status === 'Em preparo'){
-                    element.data.status = 'Pronto para servir'
-                    db.collection('Pedidos')
-                    .doc(element.id)
-                    .set(element.data)
-                } else {
-                    const initialTime = element.data.initialTime;
-                    const separator = initialTime.split(':');
-                    const now = new Date();
-                    const initialH = separator[0] + 'h';
-                    const initialM = separator[1] + 'm';
-                    const actualH = now.getHours().toLocaleString()+'h';
-                    const actualM = now.getMinutes().toLocaleString()+'m';
-                    const difference = (
-                        hmh.diff(`${initialH} ${initialM}`,`${actualH} ${actualM}`).toString()
-                    );
-                    element.data.totalTime = difference;
-                    element.data.status = 'Concluído';
+        id === order.id ?
+            props.allOrders.forEach(element => {
+                if (element.id === id) {
+                    if (status === 'Concluído') {
+                        db.collection('Pedidos')
+                            .doc(element.id)
+                            .delete()
+                    } else if (status === 'Em preparo') {
+                        element.data.status = 'Pronto para servir'
+                        db.collection('Pedidos')
+                            .doc(element.id)
+                            .set(element.data)
+                    } else {
+                        const initialTime = element.data.initialTime;
+                        const separator = initialTime.split(':');
+                        const now = new Date();
+                        const initialH = separator[0] + 'h';
+                        const initialM = separator[1] + 'm';
+                        const actualH = now.getHours().toLocaleString() + 'h';
+                        const actualM = now.getMinutes().toLocaleString() + 'm';
+                        const difference = (
+                            hmh.diff(`${initialH} ${initialM}`, `${actualH} ${actualM}`).toString()
+                        );
+                        element.data.totalTime = difference;
+                        element.data.status = 'Concluído';
 
-                    db.collection('Pedidos')
-                    .doc(element.id)
-                    .set(element.data);
-                };
-            }
-        }) : console.log();
+                        db.collection('Pedidos')
+                            .doc(element.id)
+                            .set(element.data);
+                    };
+                }
+            }) : console.log();
     };
 
     return (
@@ -62,53 +62,52 @@ export default function OrderCards(props) {
             </div>
             <div className={css(styles.delivCont, styles.flex, style.visibility)}>
                 <p className={css(styles.pDeliv)}>Preparo</p>
-                <p className={css(styles.delivered)}> 
-                    <FontAwesomeIcon icon={faClock} key='fav'/> 
+                <p className={css(styles.delivered)}>
+                    <FontAwesomeIcon icon={faClock} key='fav' />
                     <time>{props.totalTime}</time>
                 </p>
             </div>
             <p className={css(styles.clientName, styles.waiterName)}>
                 Atendente {props.waiterName}
             </p>
-            <hr className={css(styles.hr)}/>
+            <hr className={css(styles.hr)} />
             <p className={css(styles.status)}>
                 <span>
-                    Status :  
+                    Status :
                 </span>
                 <span>
                     {props.status}
                 </span>
             </p>
             <div className={css(styles.orderProducts)}>
-                {props.order.map( product => {
+                {props.order.map(product => {
                     return (
-                        <>
-                        <p key={product.data.name}>
-                            <span className={css(styles.qnt)}>
-                                {product.data.count} x 
+                        <div key={product.data.name}>
+                            <p >
+                                <span className={css(styles.qnt)}>
+                                    {product.data.count} x
                             </span>
-                            <span className={css(styles.productName)}>
-                                {product.data.name}
-                            </span>
-                        </p>
-                        <OptionsUl
-                            options={product.data.selectedOption}
-                            additionals={product.data.selectedAdd}
-                            key={props.id+product.data.selectedAdd}
-                        />
-                        </>
+                                <span className={css(styles.productName)}>
+                                    {product.data.name}
+                                </span>
+                            </p>
+                            <OptionsUl
+                                options={product.data.selectedOption}
+                                additionals={product.data.selectedAdd}
+                            />
+                        </div>
                     );
                 })}
             </div>
-            <SendButton 
+            <SendButton
                 title={
                     props.status === 'Em preparo'
-                    ? 'Pronto para servir' 
-                    : props.status === 'Pronto para servir'
-                        ? 'Entregue'
-                        : 'Deletar'
+                        ? 'Pronto para servir'
+                        : props.status === 'Pronto para servir'
+                            ? 'Entregue'
+                            : 'Deletar'
                 }
-                handleClick={(event)=> changeStatus(event.target.id, props.orders, props.status)}
+                handleClick={(event) => changeStatus(event.target.id, props.orders, props.status)}
                 style={styles.buttonOrder}
                 id={props.id}
                 key={props.id}
@@ -122,7 +121,7 @@ const styles = StyleSheet.create({
         display: 'flex'
     },
 
-    article:{
+    article: {
         flexDirection: 'row',
         flexWrap: 'wrap',
         padding: '1.5vw',
@@ -179,7 +178,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         '@media (min-width: 1281px)': {
             marginTop: '-13vh',
-            width:'2vw',
+            width: '2vw',
             marginLeft: '70%',
         }
     },
@@ -195,7 +194,7 @@ const styles = StyleSheet.create({
         width: '8vw',
         fontSize: 18,
         '@media (min-width: 1281px)': {
-            width:'4.3vw',
+            width: '4.3vw',
             fontSize: 13,
             padding: '1.3vh'
         }
@@ -245,7 +244,7 @@ const styles = StyleSheet.create({
         }
     },
 
-    qnt:{
+    qnt: {
         fontWeight: 'bold',
     },
 
