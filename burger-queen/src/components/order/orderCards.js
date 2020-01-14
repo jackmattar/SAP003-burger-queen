@@ -68,7 +68,7 @@ export default function OrderCards(props) {
                 </p>
             </div>
             <p className={css(styles.clientName, styles.waiterName)}>
-                Atendente {props.waiterName}
+                Atendente {props.waiterName.toUpperCase()}
             </p>
             <hr className={css(styles.hr)} />
             <p className={css(styles.status)}>

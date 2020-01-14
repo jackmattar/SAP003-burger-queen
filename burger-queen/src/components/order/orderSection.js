@@ -58,7 +58,7 @@ export default function OrderSection(props){
         <section className={css(styles.clientInfo)}>
             <ClientParagraph
                 title='Cliente'
-                primaryContent={props.client}
+                primaryContent={props.client.toUpperCase()}
                 color='#fffeb3'
             />
             <ClientParagraph
