@@ -3,4 +3,13 @@
     height: 25px;
     margin-right: 10px;
     background-color: rgb(238, 238, 238),
+};
+
+@media (min-width: 1281px){
+    .input {
+        width:  10px;
+        height: 10px;
+        /* margin-right: 10px;
+        background-color: rgb(238, 238, 238), */
+    }
 }

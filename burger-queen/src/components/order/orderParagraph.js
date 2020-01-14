@@ -1,8 +1,8 @@
 import React from 'react';
 import { StyleSheet, css } from 'aphrodite';
-import OptionsUl from'../order/optionsUl';
+import OptionsUl from '../order/optionsUl';
 
-const OrderParagraph =(props) => {
+const OrderParagraph = (props) => {
     props.product.id = props.id;
 
     const addItem = (item) => {
@@ -12,8 +12,8 @@ const OrderParagraph =(props) => {
     };
 
     const deleteItem = (item) => {
-        if(item.data.count === 1){
-            const newOrder = props.order.filter((el)=> {return el.id !== props.id});
+        if (item.data.count === 1) {
+            const newOrder = props.order.filter((el) => { return el.id !== props.id });
             props.setOrder(newOrder);
         } else {
             item.data.count = item.data.count - 1;
@@ -22,11 +22,11 @@ const OrderParagraph =(props) => {
         props.setTotalBill(props.totalBill - props.totalPrice);
     };
 
-    return(
+    return (
         <>
             <p className={css(styles.paragraph)} key={props.title + props.add}>
                 <span className={css(styles.title)}>
-                        {props.title}
+                    {props.title}
                 </span>
                 <span className={css(styles.amount)}>
                     <button className={css(styles.button)} onClick={() => deleteItem(props.product)}>
@@ -41,7 +41,7 @@ const OrderParagraph =(props) => {
                 </span>
                 <span className={css(styles.price, props.styles)}>
                     {props.currency}
-                    {props.price*props.product.data.count}
+                    {props.price * props.product.data.count}
                 </span>
             </p>
             <OptionsUl
@@ -54,16 +54,23 @@ const OrderParagraph =(props) => {
 
 const styles = StyleSheet.create({
     paragraph: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      margin: 10
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        margin: 10,
+        '@media (min-width: 1281px)': {
+            margin: 3,
+        }
     },
 
     title: {
         fontWeight: 'bold',
         fontSize: 17,
         width: '50%',
+        '@media (min-width: 1281px)': {
+            fontSize: 15,
+            width: '46%',
+        }
     },
 
     price: {
@@ -71,7 +78,10 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
         width: '10%',
         color: '#9c9898',
-        fontSize: 17
+        fontSize: 17,
+        '@media (min-width: 1281px)': {
+            fontSize: 14
+        }
     },
 
     amount: {
@@ -79,6 +89,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         width: '30%',
+        '@media (min-width: 1281px)': {
+            width: '34%',
+        }
     },
 
     button: {
@@ -88,6 +101,10 @@ const styles = StyleSheet.create({
         height: '3vw',
         fontSize: 20,
         borderRadius: 3,
+        '@media (min-width: 1281px)': {
+            height: '4vh',
+            width: '4vh'
+        }
     },
 
     count: {
@@ -98,7 +115,13 @@ const styles = StyleSheet.create({
         height: '2.9vw',
         backgroundColor: '#fff',
         fontWeight: 'bold',
-        border: 'solid 0.5px #999'
+        border: 'solid 0.5px #999',
+        '@media (min-width: 1281px)': {
+            height: '3.9vh',
+            width: '4vh',
+            fontSize: 14,
+            border: 'solid 0.2px #999'
+        }
     }
 });
 

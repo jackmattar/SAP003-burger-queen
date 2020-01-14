@@ -1,8 +1,5 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Link
-} from "react-router-dom";
+import { Link } from "react-router-dom";
 import firebase from 'firebase';
 import { StyleSheet, css } from 'aphrodite';
 
@@ -50,24 +47,35 @@ const styles = StyleSheet.create({
     backgroundColor: '#ff4a4a',
     height: '10vh',
     boxShadow: 'inset 0px -1px 4px 0px #c41212',
-    zIndex: 1
+    '@media (min-width: 1281px)': {
+      height: '8vh'
+    }
   },
 
   a: {
     alignItems: "center",
     width: '20vw',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    '@media (min-width: 1281px)': {
+      width: '15vw'
+    }
   },
 
   link: {
     color: '#fff',
     fontSize: 24,
     textDecoration: 'none',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    '@media (min-width: 1281px)': {
+      fontSize: 16
+    }
   },
 
   img: {
     height: '9vh',
+    '@media (min-width: 1281px)': {
+      height: '7.5vh',
+    }
   }
 
 });

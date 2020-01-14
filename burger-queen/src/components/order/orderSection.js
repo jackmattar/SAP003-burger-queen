@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import ClientParagraph from './clientParagraph';
 import OrderParagraph from './orderParagraph';
@@ -6,11 +6,21 @@ import SendButton from './sendButton';
 import { db } from '../../util/firebase';
 import growl from 'growl-alert';
 import 'growl-alert/dist/growl-alert.css';
+import firebase from 'firebase';
 
 export default function OrderSection(props){
+    const [waiter, setWaiter] = useState('');
+    useEffect(()=>{
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                const user = firebase.auth().currentUser
+                setWaiter(user.displayName);
+            }
+          });
+        console.log(waiter)
+    },[]);
 
-    const sendOrder = (e) => {
-        console.log(e.target.parentElement)
+    const sendOrder = () => {
         if ((props.client && props.table) === ''){
             growl({text: 'Preencha Nome do cliente e Mesa', type: 'warning', fadeAway: true, fadeAwayTimeout: 3000})
         } else if(props.order.length === 0) {
@@ -27,7 +37,8 @@ export default function OrderSection(props){
                 order: props.order,
                 status: 'Em preparo',
                 initialTime: hour,
-                totalTime: ''
+                totalTime: '',
+                waiter: waiter
             };
     
             db.collection('Pedidos')
@@ -44,7 +55,7 @@ export default function OrderSection(props){
 
     return(
         <>
-        <h3 className={css(styles.h3)}>Meu Pedido</h3>
+        <h3 className={css(styles.h3)}>Resumo do Pedido</h3>
         <section className={css(styles.clientInfo)}>
             <ClientParagraph
                 title='Cliente'
@@ -101,6 +112,9 @@ export default function OrderSection(props){
 const styles = StyleSheet.create({
     h3: {
         marginTop: '-0.2vh',
+        '@media (min-width: 1281px)': {
+            fontSize: 16
+        }
     },
 
     hr: {
@@ -116,17 +130,29 @@ const styles = StyleSheet.create({
         borderRadius: 12,
         padding: 2,
         marginTop: -2,
-        marginBottom: 12
+        marginBottom: 12,
+        '@media (min-width: 1281px)': {
+            paddingLeft: 1,
+            fontSize: 16,
+            width: '25vw',
+            marginTop: -8
+        }
     },
 
     productOrder: {
         display: 'flex',
         minHeight: '38vw',
         flexDirection: 'column',
+        '@media (min-width: 1281px)': {
+            minHeight: '52vh', 
+        }
     },
 
     price: {
         fontSize: 20,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        '@media (min-width: 1281px)': {
+            fontSize: 17
+        }
     },
 })

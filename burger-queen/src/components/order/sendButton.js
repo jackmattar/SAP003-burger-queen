@@ -26,7 +26,13 @@ const styles = StyleSheet.create({
         padding: 8,
         marginLeft: '44%',
         fontSize: 16,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        '@media (min-width: 1281px)': {
+            height: '7vh', 
+            marginLeft: '52%',
+            width: '12vw',
+            fontSize: 14,
+        }
       },
 });
 

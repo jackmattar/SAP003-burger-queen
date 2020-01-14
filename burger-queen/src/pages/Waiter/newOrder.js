@@ -91,7 +91,6 @@ export default function NewOrder (){
                 };
             });
 
-            setOption('');
             return e.target.extras.forEach(element => {
                 return element.checked = false
             });
@@ -204,27 +203,42 @@ const styles = StyleSheet.create({
 
     div: {
         width: '100%',
-        marginTop: '2vh'
+        marginTop: '2vh',
+        '@media (min-width: 1281px)': {
+            marginTop: '3vh',
+        }
+           
     },
 
     article: {
         width: '60vw',
-        paddingLeft: '2vw'
+        paddingLeft: '2vw',
+        '@media (min-width: 1281px)': {
+            width: '75vw',
+            paddingLeft: '7.5vw',
+        }
     },
 
     h2: {
         marginTop: '-1vh',
-        marginLeft: '1.5vw'
+        marginLeft: '1.5vw',
+        '@media (min-width: 1281px)': {
+            marginTop: '-1vh',
+            marginLeft: '1vw',
+            fontSize: 22
+        }
     },
 
     aside: {
-        position: 'relative',
         padding: '1.5vw',
         backgroundColor: '#FBFBF9',
-        width: '35vw',
+        width: '30vw',
         borderLeft: 'solid 1px #e8e6e6',
         minHeight: '650px',
-        zIndex: 2
+        '@media (min-width: 1281px)': {
+            width: '28vw',
+            minHeight: 0,
+        }
     }
 
 });

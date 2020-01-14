@@ -23,7 +23,10 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     margin: '2vh',
     fontSize: 18,
-    height: '10vh'
+    height: '10vh',
+    '@media (min-width: 1281px)': {
+      fontSize: 16,
+    }
   },
 
   input: {
@@ -33,10 +36,19 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     border: 'none',
     padding: 10,
-    width: '25vw'
+    width: '25vw',
+    '@media (min-width: 1281px)': {
+      width: '18vw',
+      height: '1.5vh',
+      borderRadius: 5,
+      fontSize: 15,
+    }
   },
 
   label: {
-    marginLeft: 5
+    marginLeft: 5,
+    '@media (min-width: 1281px)': {
+      marginLeft: 2
+    }
   }
 });

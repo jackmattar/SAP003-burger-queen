@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
     },
 
     form: {
-        alignItems: 'center',
+        alignItems: 'center'
     },
 
     registerBtn: {
@@ -165,12 +165,20 @@ const styles = StyleSheet.create({
             top:3
         },
         margin: '2vw',
+        '@media (min-width: 1281px)': {
+            width: '15vw',
+            padding: '1vh'    ,
+            margin: '2vh', 
+        }
     },
 
     radios: {
         display: "flex",
         flexDirection: 'row',
-        padding: '2vw'
+        padding: '2vw',
+        '@media (min-width: 1281px)': {
+            padding: '2vh',
+        }
     },
 
     span: {
@@ -178,12 +186,19 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginLeft: '0.5vw',
         padding: 4,
-        fontSize: 18
+        fontSize: 18,
+        '@media (min-width: 1281px)': {
+            fontSize: 15
+        }
     },
 
     h3: {
         marginLeft: '3vw',
         fontSize: 20,
-        marginBottom: '-1vw'
+        marginBottom: '-1vw',
+        '@media (min-width: 1281px)': {
+            marginBottom: '-1vw',
+            marginLeft: '2vw'
+        }
     }
 });

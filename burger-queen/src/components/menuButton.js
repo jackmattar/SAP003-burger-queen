@@ -28,13 +28,24 @@ const styles = StyleSheet.create({
     border: 'none',
     ':focus': {
       backgroundColor: '#FC7443',
-      outline: 'none'
+      outline: 'none',
+      boxShadow: 'inset 0px -2px 4px 0px #c94616'
     },
+    boxShadow: 'inset 0px -2px 4px 0px #b58618',
     fontSize: 16,
+    '@media (min-width: 1281px)': {
+      margin: '1vw',
+      height: '10vh',
+      width: '14vw',
+      fontSize: 15,
+    }   
   },
 
   iconButton: {
     width: '6vw',
+    '@media (min-width: 1281px)': {
+      width: '4vw',
+    }   
   },
 });
 

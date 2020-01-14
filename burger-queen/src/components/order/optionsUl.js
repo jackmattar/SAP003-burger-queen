@@ -5,7 +5,7 @@ const OptionsUl = (props) => {
     return(
         props.options
         ? (   
-            <ul className={css(styles.extras)}>
+            <ul className={css(styles.extras)} >
                 <li>{props.options}</li>
                 {props.additionals.length !== 0 ?
                     (   <>
@@ -30,8 +30,12 @@ const OptionsUl = (props) => {
 const styles = StyleSheet.create({
     extras: {
         marginTop: -15,
-        listStyleType: 'none'
+        listStyleType: 'none',
+        '@media (min-width: 1281px)': {
+            marginTop: -8,
+            fontSize: 15
+        }
     },
-})
+});
 
 export default OptionsUl;

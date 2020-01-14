@@ -41,6 +41,8 @@ export default function KitchenDoneOrders() {
                                 orders = {order}
                                 id = {order.id}
                                 allOrders = {ordersDone}
+                                waiterName = {order.data.waiter}
+                                key={order.id}
                             />
                         );
                     }) : (
@@ -70,6 +72,7 @@ const styles = StyleSheet.create({
 
     noOrders: {
         width: '100vw',
+        marginTop: '10vh',
         justifyContent: 'center',
         fontSize: '2.5vw',
         fontWeight: 'bold'

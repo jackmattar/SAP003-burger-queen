@@ -89,6 +89,10 @@ const styles = StyleSheet.create({
         ':active': {
             position:'relative',
             top:3
+        },
+        '@media (min-width: 1281px)': {
+            width: '15vw',
+            padding: '1vh'     
         }
     },
 

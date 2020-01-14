@@ -41,6 +41,9 @@ export default function OrdersToPrepare() {
                                 orders = {order}
                                 id = {order.id}
                                 allOrders = {ordersToPrepare}
+                                waiter={true}
+                                key={order.id}
+                                waiterName={order.data.waiter}
                             />
                         );
                     }) : (
@@ -70,6 +73,7 @@ const styles = StyleSheet.create({
 
     noOrders: {
         width: '100vw',
+        marginTop: '10vh',
         justifyContent: 'center',
         fontSize: '2.5vw',
         fontWeight: 'bold'

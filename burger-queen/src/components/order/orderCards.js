@@ -47,50 +47,8 @@ export default function OrderCards(props) {
                     .set(element.data);
                 };
             }
-        }) : console.log('n é igual');
+        }) : console.log();
     };
-
-    // const changeStatus = (event,element) => {
-    //     return buttonId === element.id ?
-    //     ( 
-    //         showOrder.forEach(item => {
-    //             if(element.id === item.id){
-
-    //                  if(event.target.textContent === 'Deletar'){
-    //                     db.collection('Pedidos')
-    //                    .doc(item.id)
-    //                    .delete()  
-    //                 } else {
-    //                     if(element.data.status === 'Pronto para servir'){
-    //                         const initialTime = element.data.initialTime;
-    //                         const separator = initialTime.split(':');
-    //                         const now = new Date();
-    //                         const initialH = separator[0] + 'h';
-    //                         const initialM = separator[1] + 'm';
-    //                         let actualH = now.getHours().toLocaleString();
-    //                         let actualM = now.getMinutes().toLocaleString();
-    //                         actualH = actualH + 'h';
-    //                         actualM = actualM + 'm';
-    //                         const difference = (hmh.diff(`${initialH} ${initialM}`,`${actualH} ${actualM}`).toString());
-    //                         element.data.totalTime = difference;
-    //                     };                   
-    
-    //                     element.data.status === 'Em preparo'
-    //                     ? element.data.status = 'Pronto para servir'
-    //                     :(element.data.status = 'Pronto para servir'
-    //                         ? element.data.status = 'Concluído'
-    //                         :null
-    //                     )             
-                        
-    //                      db.collection('Pedidos')
-    //                     .doc(item.id)
-    //                     .set(element.data)
-    //                 }
-    //             }
-    //         })
-    //     ) 
-    //     :null;
-    // }
 
     return (
         <section className={css(styles.mainSection, styles.flex)}>
@@ -105,10 +63,13 @@ export default function OrderCards(props) {
             <div className={css(styles.delivCont, styles.flex, style.visibility)}>
                 <p className={css(styles.pDeliv)}>Preparo</p>
                 <p className={css(styles.delivered)}> 
-                    <FontAwesomeIcon icon={faClock} /> 
+                    <FontAwesomeIcon icon={faClock} key='fav'/> 
                     <time>{props.totalTime}</time>
                 </p>
             </div>
+            <p className={css(styles.clientName, styles.waiterName)}>
+                Atendente {props.waiterName}
+            </p>
             <hr className={css(styles.hr)}/>
             <p className={css(styles.status)}>
                 <span>
@@ -122,7 +83,7 @@ export default function OrderCards(props) {
                 {props.order.map( product => {
                     return (
                         <>
-                        <p>
+                        <p key={product.data.name}>
                             <span className={css(styles.qnt)}>
                                 {product.data.count} x 
                             </span>
@@ -133,6 +94,7 @@ export default function OrderCards(props) {
                         <OptionsUl
                             options={product.data.selectedOption}
                             additionals={product.data.selectedAdd}
+                            key={props.id+product.data.selectedAdd}
                         />
                         </>
                     );
@@ -149,9 +111,10 @@ export default function OrderCards(props) {
                 handleClick={(event)=> changeStatus(event.target.id, props.orders, props.status)}
                 style={styles.buttonOrder}
                 id={props.id}
+                key={props.id}
             />
         </section>
-    )
+    );
 };
 
 const styles = StyleSheet.create({
@@ -176,22 +139,36 @@ const styles = StyleSheet.create({
         padding: '2vw',
         borderRadius: 20,
         backgroundColor: '#fff',
-        boxShadow: '0px 0px 10px 0px rgba(156, 156, 156, 0.678)'
+        boxShadow: '0px 0px 10px 0px rgba(156, 156, 156, 0.678)',
+        '@media (min-width: 1281px)': {
+            width: '15vw',
+            padding: '1vw'
+        }
     },
 
     table: {
         fontWeight: 'bold',
         fontSize: '3vh',
         marginBottom: '-1.5vh',
-        
     },
 
     clientName: {
-        fontSize: 18
+        fontSize: 18,
+        '@media (min-width: 1281px)': {
+            fontSize: 14,
+        }
+    },
+
+    waiterName: {
+        marginTop: '-1vh',
+        marginBottom: 10
     },
 
     pDeliv: {
-        marginBottom: '-1vh'
+        marginBottom: '-1vh',
+        '@media (min-width: 1281px)': {
+            fontSize: 14
+        }
     },
 
     delivCont: {
@@ -199,7 +176,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: '-13vh',
         marginLeft: '60%',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        '@media (min-width: 1281px)': {
+            marginTop: '-13vh',
+            width:'2vw',
+            marginLeft: '70%',
+        }
     },
 
     delivered: {
@@ -211,7 +193,12 @@ const styles = StyleSheet.create({
         color: '#fff',
         borderRadius: '2vw',
         width: '8vw',
-        fontSize: 18
+        fontSize: 18,
+        '@media (min-width: 1281px)': {
+            width:'4.3vw',
+            fontSize: 13,
+            padding: '1.3vh'
+        }
     },
 
     status: {
@@ -222,11 +209,19 @@ const styles = StyleSheet.create({
         fontSize: 18,
         borderRadius: '2vw',
         padding: '1vw',
-        backgroundColor: '#FC7443'
+        backgroundColor: '#FC7443',
+        '@media (min-width: 1281px)': {
+            fontSize: 13.5,
+            borderRadius: '0.8vw',
+            padding: '1vh',
+        }
     },
 
     hr: {
-        width: '90%'
+        width: '90%',
+        '@media (min-width: 1281px)': {
+            marginBottom: 1
+        }
     },
 
     orderProducts: {
@@ -238,7 +233,16 @@ const styles = StyleSheet.create({
         marginBottom: '2vw',
         backgroundColor: '#FBFBF9',
         boxShadow: ' inset 0px 0px 7px 0px rgba(156, 156, 156, 0.678)',
-        fontSize: 20
+        fontSize: 20,
+        '@media (min-width: 1281px)': {
+            minHeight: '10vh',
+            fontSize: 14,
+            paddingLeft: '1vw',
+            width: '85%',
+            marginLeft: 3,
+            marginBottom: '1vw',
+            borderRadius: '1vw',
+        }
     },
 
     qnt:{
@@ -248,7 +252,11 @@ const styles = StyleSheet.create({
     buttonOrder: {
         width: '18vw',
         fontSize: 16,
-        marginLeft: '4.5vw'
+        marginLeft: '4.5vw',
+        '@media (min-width: 1281px)': {
+            marginLeft: 24,
+            fontSize: 12
+        }
     },
 
     productName: {

@@ -47,40 +47,29 @@ const styles = StyleSheet.create({
       display: 'flex'
     },
   
-    productCard:{
-      flexDirection: 'column',
-      margin: '1.5vh',
-    },
-  
-    imgProduct: {
-      height: '14.5vh',
-      width: '17.5vw',
-      borderRadius: 10
-    },  
-  
-    modal: {
-      display: 'flex',
-      padding: '1vw',
-      borderRadius: 20,
-      height: '30vh',
-      width: '35vw',
-      backgroundColor: '#0d0d0d',
-      color: '#fff'
-    },
-  
     form: {
       flexDirection: 'row',
-      border: 'solid 1px #0d0d0d',
+      '@media (min-width: 1281px)': {
+        marginTop: '-1vh'
+      }
     },
     
     options:{
       paddingLeft: '1.3vw',
       width: '50%',
+      '@media (min-width: 1281px)': {
+        paddingLeft: 10,
+        fontSize: 12
+      }
     },
   
     inputP: {
       alignItems: 'center',
-      fontSize: '2.2vh'
+      fontSize: '2.2vh',
+      '@media (min-width: 1281px)': {
+        fontSize: 12,
+        fontWeight: 'bold'
+      }
     },
   
     sendButton: {
@@ -90,6 +79,11 @@ const styles = StyleSheet.create({
       backgroundColor: '#F8D956',
       border: 'none',
       fontSize: 14,
+      '@media (min-width: 1281px)': {
+        height: '7vh',
+        width: '9vw',
+        borderRadius: 8,
+        fontSize: 15
+      }
     }
-  
   })

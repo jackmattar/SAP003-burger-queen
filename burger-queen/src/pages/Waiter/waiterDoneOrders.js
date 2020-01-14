@@ -25,9 +25,10 @@ export default function WaiterDoneOrders() {
                 primaryRoute='/waiter'
                 secondLink='Pedidos Prontos'
                 secondRoute='/waiter-done-orders'
+                key='header'
             />
             <main className={css(styles.main)}>
-                <article className={css(styles.article, styles.flex, styles.minHeight)}>
+                <article className={css(styles.article, styles.flex, styles.minHeight)} key='main-article'>
                     {
                         ordersToDelivery.length !== 0 ?
                             ordersToDelivery.map(order => {
@@ -41,11 +42,14 @@ export default function WaiterDoneOrders() {
                                         orders={order}
                                         id={order.id}
                                         allOrders={ordersToDelivery}
+                                        key={order.id}
+                                        waiter={true}
+                                        waiterName={order.data.waiter}
                                     />
                                 );
                             }) : (
-                                <div className={css(styles.noOrders, styles.flex)}>
-                                    <p>
+                                <div className={css(styles.noOrders, styles.flex)} key='eita'>
+                                    <p key='no-order'>
                                         Nenhum pedido para entregar.
                                     </p>
                                 </div>

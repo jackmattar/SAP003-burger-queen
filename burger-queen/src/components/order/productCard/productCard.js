@@ -26,7 +26,6 @@ const ProductCard = (props) => {
 
   const handleSubmit = (e) => {
     props.handleSubmit(e);
-    console.log(props.selectedOp)
     if (props.selectedOp === '') {
       growl({ text: 'ESCOLHA UMA OPÇÃO', type: 'warning', fadeAway: true, fadeAwayTimeout: 3000 })
     } else {
@@ -65,7 +64,6 @@ const ProductCard = (props) => {
                 id={props.id}
               />
             </div>
-
           )
           : false
       }
@@ -83,12 +81,19 @@ const styles = StyleSheet.create({
   productCard: {
     flexDirection: 'column',
     margin: '1.5vh',
+    '@media (min-width: 1281px)': {
+      margin: '1vh',
+      fontSize: 14
+    }
   },
 
   imgProduct: {
     height: '14.5vh',
     width: '17.5vw',
-    borderRadius: 10
+    borderRadius: 10,
+    '@media (min-width: 1281px)': {
+      width: '12vw'
+    }
   },
 
   modal: {
@@ -97,6 +102,10 @@ const styles = StyleSheet.create({
     height: '30vh',
     width: '35vw',
     backgroundColor: '#0d0d0d',
-    color: '#fff'
+    color: '#fff',
+    '@media (min-width: 1281px)': {
+      height: '27vh',
+      width: '20vw',
+    }
   }
 })
