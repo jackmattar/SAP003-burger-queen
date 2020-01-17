@@ -88,27 +88,27 @@ Este projeto foi desenvolvido usando as seguintes tecnologias e ferramentas
 ### Página Inicial
 
 #### Login
-![](burger-queen/public/login.png)
+![](public/login.png)
 
 #### Registro
-![](burger-queen/public/registro.png)
+![](public/registro.png)
 
 
 ### Telas para o Garçon
 
 #### Novo Pedido
- ![](burger-queen/public/novopedido.png)
+ ![](public/novopedido.png)
 
  #### Prontos para entregar
- ![](burger-queen/public/delivered.png)
+ ![](public/delivered.png)
 
  ### Telas para Cozinha
 
 #### Pedidos para preparar
- ![](burger-queen/public/toprepare.png)
+ ![](public/toprepare.png)
 
  #### Pedidos concluídos
- ![](burger-queen/public/done.png)
+ ![](public/done.png)
 
 
 ## 5. Considerações finais
