@@ -5,7 +5,7 @@ import OptionsForm from '../optionsForm';
 import growl from 'growl-alert';
 import 'growl-alert/dist/growl-alert.css';
 
-const ProductCard = (props) => {
+export default function ProductCard (props){
   const [showOp, setShowOp] = useState(false);
   const [display, setDisplay] = useState('none');
 
@@ -36,32 +36,30 @@ const ProductCard = (props) => {
   return (
     <section className={css(styles.flex)}>
       <div
-        onClick={props.options ? showOptionsDiv : props.handleClick}
+        onClick={props.data.options ? showOptionsDiv : props.handleClick}
         id={props.id}
         className={css(styles.productCard, styles.flex)}
       >
         <img
           className={css(styles.imgProduct)}
           alt="product"
-          src={props.img}
+          src={props.data.img}
         />
         <span>
-          {props.title}
-          <br /> R$ {props.price}
+          {props.data.name}
+          <br /> R$ {props.data.price}
         </span>
 
       </div>
       {
-        props.options
+        props.data.options
           ? (
             <div className={css(style.flex, styles.modal)}>
               <OptionsForm
-                title={props.title}
-                options={props.options}
+                {...props}
                 handleSubmit={(e) => handleSubmit(e)}
                 setOption={props.setOption}
-                additionals={props.additionals}
-                id={props.id}
+                additionals={props.data.additional}
               />
             </div>
           )
@@ -70,8 +68,6 @@ const ProductCard = (props) => {
     </section>
   );
 };
-
-export default ProductCard;
 
 const styles = StyleSheet.create({
   flex: {

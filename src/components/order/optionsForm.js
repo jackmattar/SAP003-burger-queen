@@ -3,20 +3,19 @@ import { StyleSheet, css } from 'aphrodite';
 import Radio from '../radio';
 
 export default function OptionsForm(props){
-
     return(
         <form className={css(styles.form, styles.flex)} onSubmit={props.handleSubmit}>
             <div id='options' className={css(styles.options)}>
                 <h3>Opções de Hambúrguer</h3>
-                {props.options.map((option) => {
+                {props.data.options.map((option) => {
                     return (
                     <p key={option} className={css(styles.flex ,styles.inputP)}>
                         <Radio
                             value={option}
-                            id={option+props.title}
+                            id={option+props.data.name}
                             name='options'
                             onChange={(e)=> {props.setOption(e.target.value)}}
-                            for={option+props.title}
+                            for={option+props.data.name}
                             title= {option}
                         />
                     </p>
@@ -25,12 +24,12 @@ export default function OptionsForm(props){
             </div>
             <div className={css(styles.options)}>
             <h3>Extras por R$1?</h3>
-            {props.additionals.map(add => {
+            {props.data.additional.map(add => {
                 return (
                 <p key={add} className={css(styles.inputP, styles.flex)}>
-                    <input className='input' type='checkbox' id={add + props.id}
+                    <input className='input' type='checkbox' id={add + props.data.id}
                     value={add} name='extras' key={add}></input>
-                    <label htmlFor={add+props.id}>{add}</label>
+                    <label htmlFor={add+props.data.id}>{add}</label>
                 </p>
                 )
             })}

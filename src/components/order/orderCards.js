@@ -16,7 +16,7 @@ export default function OrderCards(props) {
     });
 
     const changeStatus = (id, order, status) => {
-        id === order.id ?
+        if(id === order.id){
             props.allOrders.forEach(element => {
                 if (element.id === id) {
                     if (status === 'Concluído') {
@@ -46,29 +46,30 @@ export default function OrderCards(props) {
                             .doc(element.id)
                             .set(element.data);
                     };
-                }
-            }) : console.log();
+                };
+            });
+        };
     };
 
     return (
         <section className={css(styles.mainSection, styles.flex)}>
             <div>
                 <p className={css(styles.table)}>
-                    Mesa {props.table}
+                    Mesa {props.data.table}
                 </p>
                 <p className={css(styles.clientName)}>
-                    Cliente {props.client}
+                    Cliente {props.data.client}
                 </p>
             </div>
             <div className={css(styles.delivCont, styles.flex, style.visibility)}>
                 <p className={css(styles.pDeliv)}>Preparo</p>
                 <p className={css(styles.delivered)}>
                     <FontAwesomeIcon icon={faClock} key='fav' />
-                    <time>{props.totalTime}</time>
+                    <time>{props.data.totalTime}</time>
                 </p>
             </div>
             <p className={css(styles.clientName, styles.waiterName)}>
-                Atendente {props.waiterName.toUpperCase()}
+                Atendente {props.data.waiter.toUpperCase()}
             </p>
             <hr className={css(styles.hr)} />
             <p className={css(styles.status)}>
@@ -76,38 +77,36 @@ export default function OrderCards(props) {
                     Status :
                 </span>
                 <span>
-                    {props.status}
+                    {props.data.status}
                 </span>
             </p>
             <div className={css(styles.orderProducts)}>
-                {props.order.map(product => {
-                    return (
-                        <div key={product.data.name}>
-                            <p >
-                                <span className={css(styles.qnt)}>
-                                    {product.data.count} x
+                {props.data.order.map(product => (
+                    <div key={product.data.name}>
+                        <p>
+                            <span className={css(styles.qnt)}>
+                                {product.data.count} x
+                        </span>
+                            <span className={css(styles.productName)}>
+                                {product.data.name}
                             </span>
-                                <span className={css(styles.productName)}>
-                                    {product.data.name}
-                                </span>
-                            </p>
-                            <OptionsUl
-                                options={product.data.selectedOption}
-                                additionals={product.data.selectedAdd}
-                            />
-                        </div>
-                    );
-                })}
+                        </p>
+                        <OptionsUl
+                            options={product.data.selectedOption}
+                            additionals={product.data.selectedAdd}
+                        />
+                    </div>)
+                )}
             </div>
             <SendButton
                 title={
-                    props.status === 'Em preparo'
+                    props.data.status === 'Em preparo'
                         ? 'Pronto para servir'
-                        : props.status === 'Pronto para servir'
+                        : props.data.status === 'Pronto para servir'
                             ? 'Entregue'
                             : 'Deletar'
                 }
-                handleClick={(event) => changeStatus(event.target.id, props.orders, props.status)}
+                handleClick={(event) => changeStatus(event.target.id, props, props.data.status)}
                 style={styles.buttonOrder}
                 id={props.id}
                 key={props.id}

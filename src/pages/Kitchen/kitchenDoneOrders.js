@@ -28,24 +28,14 @@ export default function KitchenDoneOrders() {
         />
         <main className={css(styles.main)}>
             <article className={css(styles.article, styles.flex, styles.minHeight)}>
-                {
-                    ordersDone.length !== 0 ?
-                    ordersDone.map( order => {
-                        return (
-                            <OrderCards
-                                table = {order.data.table}
-                                client = {order.data.client}
-                                totalTime = {order.data.totalTime}
-                                status = {order.data.status}
-                                order = {order.data.order}
-                                orders = {order}
-                                id = {order.id}
-                                allOrders = {ordersDone}
-                                waiterName = {order.data.waiter}
-                                key={order.id}
-                            />
-                        );
-                    }) : (
+                {ordersDone.length !== 0 
+                    ? ordersDone.map( order => (
+                        <OrderCards
+                            {...order}
+                            allOrders={ordersDone}
+                            key={order.id}
+                        />)) 
+                    : (
                         <div className={css(styles.noOrders, styles.flex)}>
                             Nenhum pedido concluído.
                         </div>

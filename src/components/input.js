@@ -7,7 +7,7 @@ export default function Input (props) {
         <label className={css(styles.label)}>{props.label} </label>
         <input 
             type={props.type}
-            value={props.state}
+            value={props.value}
             onChange={props.onChange}
             className={css(styles.input)}
             autoComplete={props.auto}
