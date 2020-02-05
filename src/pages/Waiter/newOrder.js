@@ -25,7 +25,7 @@ export default function NewOrder() {
                 }));
                 setAllMenu(productsMenu)
                 setChosenMenu(productsMenu);
-            });
+            });        
     }, []);
 
     const chooseMenu = (e) => {

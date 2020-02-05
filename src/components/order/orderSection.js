@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import ClientParagraph from './clientParagraph';
 import OrderParagraph from './orderParagraph';
@@ -9,17 +9,8 @@ import 'growl-alert/dist/growl-alert.css';
 import firebase from 'firebase';
 
 export default function OrderSection(props){
-    const [waiter, setWaiter] = useState('');
-    useEffect(()=>{
-        firebase.auth().onAuthStateChanged(function(user) {
-            if (user) {
-                const user = firebase.auth().currentUser
-                setWaiter(user.displayName);
-            }
-          });
-    },[]);
-
-    const sendOrder = () => {
+    const waiter = firebase.auth().currentUser;
+    const sendOrder = () => {        
         if ((props.client && props.table) === ''){
             growl({text: 'Preencha Nome do cliente e Mesa', type: 'warning', fadeAway: true, fadeAwayTimeout: 3000})
         } else if(props.order.length === 0) {
@@ -37,7 +28,7 @@ export default function OrderSection(props){
                 status: 'Em preparo',
                 initialTime: hour,
                 totalTime: '',
-                waiter: waiter
+                waiter: waiter.displayName
             };
     
             db.collection('Pedidos')
