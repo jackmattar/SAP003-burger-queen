@@ -88,27 +88,27 @@ Este projeto foi desenvolvido usando as seguintes tecnologias e ferramentas
 ### Página Inicial
 
 #### Login
-![](public/login.png)
+![](public/readme-images/login.png)
 
 #### Registro
-![](public/registro.png)
+![](public/readme-images/registro.png)
 
 
 ### Telas para o Garçon
 
 #### Novo Pedido
- ![](public/novopedido.png)
+ ![](public/readme-images/novopedido.png)
 
  #### Prontos para entregar
- ![](public/delivered.png)
+ ![](public/readme-images/delivered.png)
 
  ### Telas para Cozinha
 
 #### Pedidos para preparar
- ![](public/toprepare.png)
+ ![](public/readme-images/toprepare.png)
 
  #### Pedidos concluídos
- ![](public/done.png)
+ ![](public/readme-images/done.png)
 
 
 ## 5. Considerações finais
