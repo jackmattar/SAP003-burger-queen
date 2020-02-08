@@ -11,12 +11,12 @@ export default function OrderCards(props) {
 
     const style = StyleSheet.create({
         visibility: {
-            visibility: props.waiter ? 'hidden' : 'visible'
+            visibility: props.waiter ? 'hidden' : 'visible',
         }
     });
 
     const changeStatus = (id, order, status) => {
-        if(id === order.id){
+        if (id === order.id) {
             props.allOrders.forEach(element => {
                 if (element.id === id) {
                     if (status === 'Concluído') {
@@ -53,22 +53,21 @@ export default function OrderCards(props) {
 
     return (
         <section className={css(styles.mainSection, styles.flex)}>
-            <div>
+            <div className={css(styles.flex, styles.topOfCard)}>
                 <p className={css(styles.table)}>
                     Mesa {props.data.table}
                 </p>
-                <p className={css(styles.clientName)}>
-                    Cliente {props.data.client}
-                </p>
+                <div className={css(style.visibility, styles.deliveryContent, styles.flex)}>
+                    <p className={css(styles.pDeliv)}>Preparo</p>
+                    <p className={css(styles.timeToDelivery)}>
+                        <FontAwesomeIcon icon={faClock} key='fav' />
+                        <time>{props.data.totalTime}</time>
+                    </p>
+                </div>
             </div>
-            <div className={css(styles.delivCont, styles.flex, style.visibility)}>
-                <p className={css(styles.pDeliv)}>Preparo</p>
-                <p className={css(styles.delivered)}>
-                    <FontAwesomeIcon icon={faClock} key='fav' />
-                    <time>{props.data.totalTime}</time>
-                </p>
-            </div>
-            <p className={css(styles.clientName, styles.waiterName)}>
+            <p className={css(styles.orderInfos)}>
+                Cliente {props.data.client}
+                <br />
                 Atendente {props.data.waiter.toUpperCase()}
             </p>
             <hr className={css(styles.hr)} />
@@ -144,17 +143,22 @@ const styles = StyleSheet.create({
         }
     },
 
+    topOfCard: {
+        height: '6vh',
+        justifyContent: 'space-between',
+    },
+
     table: {
         fontWeight: 'bold',
-        fontSize: '3vh',
-        marginBottom: '-1.5vh',
+        fontSize: '3.2vh',
+    },
+
+    orderInfos: {
+        fontSize: '2vh'
     },
 
     clientName: {
-        fontSize: 18,
-        '@media (min-width: 1281px)': {
-            fontSize: 14,
-        }
+        fontSize: '3vh'
     },
 
     waiterName: {
@@ -162,27 +166,21 @@ const styles = StyleSheet.create({
         marginBottom: 10
     },
 
-    pDeliv: {
-        marginBottom: '-1vh',
-        '@media (min-width: 1281px)': {
-            fontSize: 14
-        }
-    },
-
-    delivCont: {
-        width: '10vw',
+    deliveryContent: {
+        marginTop: '3vh',
         alignItems: 'center',
-        marginTop: '-13vh',
-        marginLeft: '60%',
-        flexDirection: 'column',
-        '@media (min-width: 1281px)': {
-            marginTop: '-13vh',
-            width: '2vw',
-            marginLeft: '70%',
+        justifyContent: 'center',
+        flexDirection: 'column'
+    },
+
+    pDeliv: {
+        marginBottom: -10,
+        '@media (min-width: 1000px)': {
+            fontSize: '2vh'
         }
     },
 
-    delivered: {
+    timeToDelivery: {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',

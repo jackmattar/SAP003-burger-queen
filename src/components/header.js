@@ -2,15 +2,18 @@ import React from "react";
 import { Link } from "react-router-dom";
 import firebase from 'firebase';
 import { StyleSheet, css } from 'aphrodite';
-
+import {useHistory} from "react-router-dom";
 
 export default function Header(props) {
+  const history = useHistory();
 
   const logout = () => {
     firebase
       .auth()
       .signOut()
-      .then()
+      .then(() => {
+        history.push('/')
+      })
       .catch(console.error);
   };
 
